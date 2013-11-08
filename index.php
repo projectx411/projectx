@@ -18,7 +18,7 @@
         }
         else
         {
-
+dsf
         $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
         $result = mysqli_query($connection,$sql);
         if ($result->num_rows == 1)
