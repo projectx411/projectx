@@ -50,6 +50,7 @@
             {
                 $_SESSION['email'] = $email;
                 header ("Location: profile.php");
+                exit();
             }
             }
         }
@@ -100,14 +101,14 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
 <td align="left"><b>phone number</b></td>
 </tr>
 <tr>
-<td colspan="2"><input value="<?php echo htmlspecialchars($phone); ?>"  placeholder="(xxx)-xxx-xxxx" type="text" name="phone"></td>
+<td colspan="2"><input value=" <?php echo htmlspecialchars($phone); ?> "  placeholder="(xxx)-xxx-xxxx" type="text" name="phone"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
 <td align="left"><b>e-mail:</b></td>
 </tr>
 <tr>
-<td colspan="2"><input value="<?php echo htmlspecialchars($email); ?>"  type="text" name="email"></td>
+<td colspan="2"><input value=" <?php echo htmlspecialchars($email); ?> "    type="text" name="email"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
