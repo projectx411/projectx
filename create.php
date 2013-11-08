@@ -64,6 +64,7 @@
 <html>
 
 <head>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <style type="text/css">
 table
 input[type="text"] {width: 95%;} /* removing this would make input not to go over cells border, but they would be too short, I want them to fit cells size */
@@ -72,11 +73,13 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
 <head>
 
 <title>Registration</title>
+
 <body>
 <form action="index.php">
-<button>Return to the main page</button><br><br>
+<button>Return to the main page</button>
 </form>
 
+<h3 class="form-signin-heading">Create your account</h3>
 
 <form method="post" action="create.php">
 <br>
@@ -85,8 +88,8 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
 <td align="left"><b>name</b></td>
 </tr>
 <tr>
-<td><input value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First"></td>
-<td><input value="<?php echo htmlspecialchars($lname);?>"  type="text" name="lname" placeholder="Last"></td>
+<td><input class="form-control"  value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First"></td>
+<td><input class="form-control"  value="<?php echo htmlspecialchars($lname);?>"  type="text" name="lname" placeholder="Last"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <td align="left"><b>gender</b></td>
@@ -102,28 +105,28 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
 <td align="left"><b>phone number</b></td>
 </tr>
 <tr>
-<td colspan="2"><input value="<?php echo htmlspecialchars($phone);?> "  placeholder="(xxx)-xxx-xxxx" type="text" name="phone"></td>
+<td colspan="2"><input class="form-control" value="<?php echo htmlspecialchars($phone);?>"  placeholder="(xxx)-xxx-xxxx" type="text" name="phone"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
 <td align="left"><b>e-mail:</b></td>
 </tr>
 <tr>
-<td colspan="2"><input value="<?php echo htmlspecialchars($email);?> "    type="text" name="email"></td>
+<td colspan="2"><input class="form-control" value="<?php echo htmlspecialchars($email);?>"    type="text" name="email"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
 <td align="left"><b>choose your password</b></td>
 </tr>
 <tr>
-<td colspan="2"><input type="password" name="pw1"></td>
+<td colspan="2"><input class="form-control" type="password" name="pw1" style="padding-right=20px;"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
 <td align="left"><b>confirm your password</b></td>
 </tr>
 <tr>
-<td colspan="2"><input type="password" name="pw2"></td>
+<td colspan="2"><input class="form-control" type="password" name="pw2"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <br>
@@ -139,4 +142,5 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
     ?>
 
 </body>
+
 </html>
