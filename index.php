@@ -18,6 +18,7 @@
         }
         else
         {
+            
             $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
             $result = mysqli_query($connection,$sql);
             if ($result->num_rows == 1)
@@ -53,7 +54,7 @@
 <h2 class="form-signin-heading">Welcome to Project X!</h2>
 <input type="text" class="form-control" placeholder="Email address" autofocus name="email" value="<?php echo htmlspecialchars($email); ?>" >
 <input type="password" class="form-control" placeholder="Password" name="pw">
-<input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
+<input class="btn btn-lg btn-primary btn-block" type="submit" value="Login" style="margin-bottom: 8px;">
 <?php
     echo '<span style="color:red">'.$error.'</span>';
     ?>
