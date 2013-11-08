@@ -33,7 +33,11 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
         
         if ($fname == "" || $lname == "" || $gender == "" || $phone ==  "" || $email == "" || $pw1 == "" || $pw2 == "")
         {
-            $error = "Please make sure all fields are filled up!<br /><br />";
+            $error .= "Please make sure all fields are filled up!<br /><br />";
+            if ($pw1 != $pw2)
+            {
+                $error .= "Passwords do not match!<br /><br />";
+            }
         }
         else
         {
@@ -88,14 +92,14 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
 <td align="left"><b>choose your password</b></td>
 </tr>
 <tr>
-<td colspan="2"><input type="text" name="pw1"></td>
+<td colspan="2"><input type="password" name="pw1"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <tr>
 <td align="left"><b>confirm your password</b></td>
 </tr>
 <tr>
-<td colspan="2"><input type="text" name="pw2"></td>
+<td colspan="2"><input type="password" name="pw2"></td>
 </tr>
 <tr></tr><tr></tr><tr></tr><tr></tr>
 <br>
