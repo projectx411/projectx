@@ -18,24 +18,6 @@
         }
         else
         {
-<<<<<<< HEAD
-            dsf
-            $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
-            $result = mysqli_query($connection,$sql);
-            if ($result->num_rows == 1)
-            {
-                $_SESSION['email'] = $email;
-                header ("Location: profile.php");
-            }
-            else
-            {
-                $error = 'Incorrect username/password <br>';
-            }
-        }
-    }
-    ?>
-=======
-dsf
         $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
         $result = mysqli_query($connection,$sql);
         if ($result->num_rows == 1)
