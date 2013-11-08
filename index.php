@@ -32,7 +32,6 @@
         }
     }
 ?>
->>>>>>> d53aa951c78344b6106827d1b13840b7c0d4473a
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -57,11 +56,7 @@
 <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
 <?php
     echo '<span style="color:red">'.$error.'</span>';
-<<<<<<< HEAD
-    ?>
-=======
 ?>
->>>>>>> d53aa951c78344b6106827d1b13840b7c0d4473a
 <a href="create.php">Register</a>
 </form>
 
