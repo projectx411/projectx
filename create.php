@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once 'mysql/login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
