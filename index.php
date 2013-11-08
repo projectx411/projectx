@@ -3,36 +3,35 @@
     require_once 'mysql/login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-
+    
     $email = $error = $pw = "";
-
-
+    
+    
     if (isset($_POST['email']))
     {
         $email = $_POST['email'];
         $pw = $_POST['pw'];
-
+        
         if ($email == "" || $pw == "")
         {
             $error = "Please fill out both fields. <br>";
         }
         else
         {
-        $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
-        $result = mysqli_query($connection,$sql);
-        if ($result->num_rows == 1)
-        {
-            $_SESSION['email'] = $email;
-            header ("Location: profile.php");
-        }
-        else
-        {
-            $error = 'Incorrect username/password <br>';
-        }
+            $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
+            $result = mysqli_query($connection,$sql);
+            if ($result->num_rows == 1)
+            {
+                $_SESSION['email'] = $email;
+                header ("Location: profile.php");
+            }
+            else
+            {
+                $error = 'Incorrect username/password <br>';
+            }
         }
     }
-?>
->>>>>>> d53aa951c78344b6106827d1b13840b7c0d4473a
+    ?>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -57,11 +56,7 @@
 <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login">
 <?php
     echo '<span style="color:red">'.$error.'</span>';
-<<<<<<< HEAD
     ?>
-=======
-?>
->>>>>>> d53aa951c78344b6106827d1b13840b7c0d4473a
 <a href="create.php">Register</a>
 </form>
 

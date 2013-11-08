@@ -21,10 +21,10 @@
         
         if ($fname == "" || $lname == "" || $gender == "" || $phone ==  "" || $email == "" || $pw1 == "" || $pw2 == "")
         {
-            $error .= "Please make sure all fields are filled up!<br /><br />";
+            $error .= "Please make sure no empty fields remain.<br /><br />";
             if ($pw1 != $pw2)
             {
-                $error .= "Passwords do not match!<br /><br />";
+                $error .= "Passwords do not match<br /><br />";
             }
         }
         else
@@ -38,109 +38,68 @@
             }
             else
             {
-            $name .= $fname.' '.$lname;
-            #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
-            
-            
-            $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
-            $result = mysqli_query($connection,$sql);
-            if ( false==$result ) {
-                printf("error: %s\n", mysqli_error($connection));
-            }
-            else
-            {
-                $_SESSION['email'] = $email;
-                header ("Location: profile.php");
-                exit();
-            }
+                $name .= $fname.' '.$lname;
+                #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
+                
+                
+                $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
+                $result = mysqli_query($connection,$sql);
+                if ( false==$result ) {
+                    printf("error: %s\n", mysqli_error($connection));
+                }
+                else
+                {
+                    $_SESSION['email'] = $email;
+                    header ("Location: profile.php");
+                    exit();
+                }
             }
         }
     }
     
     ?>
 
-
 <!DOCTYPE html>
-<html>
-
+<html lang="en-US">
 <head>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<style type="text/css">
-table
-input[type="text"] {width: 95%;} /* removing this would make input not to go over cells border, but they would be too short, I want them to fit cells size */
-
+<link rel="stylesheet" type="text/css" href="css/signin.css">
+<style>
+#gender input {margin-left: 30px; margin-right: 4px;}
 </style>
-<head>
 
-<title>Registration</title>
-
+<title>Project X - Register</title>
+</head>
 <body>
-<form action="index.php">
-<button>Return to the main page</button>
-</form>
 
-<h3 class="form-signin-heading">Create your account</h3>
+<div class="container">
 
-<form method="post" action="create.php">
-<br>
-<table style="background:#F9F5F5">
-<tr>
-<td align="left"><b>name</b></td>
-</tr>
-<tr>
-<td><input class="form-control"  value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First"></td>
-<td><input class="form-control"  value="<?php echo htmlspecialchars($lname);?>"  type="text" name="lname" placeholder="Last"></td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<td align="left"><b>gender</b></td>
-</tr>
-<tr>
-<td colspan="2">
-<input type="radio" name="gender" value="male">Male<br>
+<form class="form-signin" method="post" action="create.php">
+<a href="index.php">Return to main page</a>
+<h2 class="form-signin-heading" style="margin-top: 10px;">Register</h2>
+<input class="form-control" value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First Name">
+<input class="form-control" value="<?php echo htmlspecialchars($lname);?>" type="text" name="lname" placeholder="Last Name">
+<div id="gender" style="padding: 10px;">
+<span style="font-size: 16px; margin-right: 10px;">Gender</span>
+<input type="radio" name="gender" value="male">Male
 <input type="radio" name="gender" value="female">Female
-</td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<tr>
-<td align="left"><b>phone number</b></td>
-</tr>
-<tr>
-<td colspan="2"><input class="form-control" value="<?php echo htmlspecialchars($phone);?>"  placeholder="(xxx)-xxx-xxxx" type="text" name="phone"></td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<tr>
-<td align="left"><b>e-mail:</b></td>
-</tr>
-<tr>
-<td colspan="2"><input class="form-control" value="<?php echo htmlspecialchars($email);?>"    type="text" name="email"></td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<tr>
-<td align="left"><b>choose your password</b></td>
-</tr>
-<tr>
-<td colspan="2"><input class="form-control" type="password" name="pw1" style="padding-right=20px;"></td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<tr>
-<td align="left"><b>confirm your password</b></td>
-</tr>
-<tr>
-<td colspan="2"><input class="form-control" type="password" name="pw2"></td>
-</tr>
-<tr></tr><tr></tr><tr></tr><tr></tr>
-<br>
-</table>
-<input type="submit" value="Create">
+</div>
+<input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number">
+<input class="form-control" value="<?php echo htmlspecialchars($email);?>" type="text" name="email" placeholder="Email Address">
+<input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
+<input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
+<input class="btn btn-lg btn-primary btn-block" type="submit" value="Create Account">
+<?php
+    echo '<span style="color:red">'.$error.'</span>';
+    ?>
 </form>
 
+</div> <!-- /container -->
 
-<?php
-    echo '<br>';
-    echo '<span style="color:red">'.$error.'</span>';
-    
-    ?>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+</script>
 
 </body>
-
 </html>
