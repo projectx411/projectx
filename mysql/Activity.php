@@ -1,9 +1,7 @@
 <?php
-    
     require_once 'login.php';
     /* connect to the db */
-    $connection = mysql_connect($db_hostname,$db_username,$db_password);
-    mysql_select_db($db_database,$connection);
+    $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
     
     echo '<br><br>Current Activity Table:<br>';
     
