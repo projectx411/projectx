@@ -11,9 +11,15 @@
 </head>
 <body>
 
+
+<?php
+    
+    
+    
+?>
+
 <div class="container">
 
-<form class="form-signin">
 <h2 class="form-signin-heading">Please sign in</h2>
 <input type="text" class="form-control" placeholder="Email address" autofocus>
 <input type="password" class="form-control" placeholder="Password">
@@ -21,10 +27,14 @@
 <input type="checkbox" value="remember-me"> Remember me
 </label>
 
-</form>
 
-<form action="profile.php">
+
+<form action="index.php">
 <input class="btn btn-lg btn-primary btn-block"  type="submit" value="sign in">
+</form>
+<br>
+<form action="create.php">
+<input class="btn btn-lg btn-primary btn-block"  type="submit" value="create username">
 </form>
 
 </div> <!-- /container -->
