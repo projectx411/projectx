@@ -5,7 +5,7 @@
     
     echo '<br><br>Current Student Table:<br>';
     
-    $result = mysql_query('Select * From Student',$connection) or die('cannot show tables');
+    $result = mysqli_query($connection,'Select * From Student') or die('cannot show tables');
     echo '<table border="1">';
     echo '<tr><td><b>email</b></td><td><b>password</b></td><td><b>name</b></td><td><b>gender</b></td><td><b>phoneNumber</b></td></tr>';
     while($tableName = mysql_fetch_row($result)) {

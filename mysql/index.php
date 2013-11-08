@@ -1,11 +1,5 @@
 <html>
-
-
-
 <body>
-
-
-
 <br><a href="tables.php">Display Schema</a><br><br><br>
 
 <?php
@@ -17,8 +11,8 @@
     
     /* show tables */
     
-    $result = mysqli_query('SHOW TABLES',$connection) or die('cannot show tables');
-    while($tableName = mysql_fetch_row($result)) {
+    $result = mysqli_query($connection,'SHOW TABLES') or die('cannot show tables');
+    while($tableName = mysqli_fetch_row($result)) {
         
         
         $table = $tableName[0];
