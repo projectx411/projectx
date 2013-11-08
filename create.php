@@ -3,10 +3,10 @@
     require_once 'mysql/login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-    
+
     $error = $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
-    
-    
+
+
     if (isset($_POST['fname']))
     {
         $fname = $_POST['fname'];
@@ -16,9 +16,9 @@
         $email = $_POST['email'];
         $pw1 = $_POST['pw1'];
         $pw2 = $_POST['pw2'];
-        
+
         #echo $fname.'.'.$lname.'.'.$gender.'.'.$phone.'.'.$pw1.'.'.$pw2.'.';
-        
+
         if ($fname == "" || $lname == "" || $gender == "" || $phone ==  "" || $email == "" || $pw1 == "" || $pw2 == "")
         {
             $error .= "Please make sure no empty fields remain.<br /><br />";
@@ -38,6 +38,7 @@
             }
             else
             {
+<<<<<<< HEAD
                 $name .= $fname.' '.$lname;
                 #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
                 
@@ -53,19 +54,43 @@
                     header ("Location: profile.php");
                     exit();
                 }
+=======
+            $name .= $fname.' '.$lname;
+            #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
+
+
+            $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
+            $result = mysqli_query($connection,$sql);
+            if ( false==$result ) {
+                printf("error: %s\n", mysqli_error($connection));
+            }
+            else
+            {
+                $_SESSION['email'] = $email;
+                header ("Location: profile.php");
+                exit();
+            }
+>>>>>>> 06dcbd9144446656e2eafefdde2536cb51a5404c
             }
         }
     }
-    
+
+<<<<<<< HEAD
+=======
     ?>
 
+>>>>>>> 06dcbd9144446656e2eafefdde2536cb51a5404c
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/signin.css">
 <style>
+<<<<<<< HEAD
 #gender input {margin-left: 30px; margin-right: 4px;}
+=======
+	#gender input {margin-left: 30px; margin-right: 4px;}
+>>>>>>> 06dcbd9144446656e2eafefdde2536cb51a5404c
 </style>
 
 <title>Project X - Register</title>
@@ -91,6 +116,7 @@
 <input class="btn btn-lg btn-primary btn-block" type="submit" value="Create Account">
 <?php
     echo '<span style="color:red">'.$error.'</span>';
+<<<<<<< HEAD
     ?>
 </form>
 
@@ -101,5 +127,17 @@
 
 </script>
 
+=======
+?>
+</form>
+
+</div> <!-- /container -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+</script>
+
+>>>>>>> 06dcbd9144446656e2eafefdde2536cb51a5404c
 </body>
 </html>
