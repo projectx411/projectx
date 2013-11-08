@@ -12,7 +12,6 @@
     require_once 'login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-    echo mysql_errno($connection) . ": " . mysql_error($connection) . "\n";
     
     echo '<b>Current tables (Location and Located are not yet finished!):</b><br><br>';
     
