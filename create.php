@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-<style type="text/css">
-table
-input[type="text"] {width: 95%;} /* removing this would make input not to go over cells border, but they would be too short, I want them to fit cells size */
-
-</style>
-<head>
-
-<title>Registration</title>
-<body>
 <?php
     require_once 'mysql/login.php';
     /* connect to the db */
@@ -41,18 +28,53 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
         }
         else
         {
+            $sql = "SELECT email FROM Student WHERE email='$email' LIMIT 1";
+            $result = mysqli_query($connection,$sql);
+            if ($result->num_rows == 1)
+            {
+                $error = "This e-mail is already registered. Please choose another e-mail.<br>";
+                $email = "";
+            }
+            else
+            {
             $name .= $fname.' '.$lname;
-            echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
+            #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
+            
+            
             $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
             $result = mysqli_query($connection,$sql);
-            if ( false===$result ) {
+            if ( false==$result ) {
                 printf("error: %s\n", mysqli_error($connection));
             }
-            $_SESSION['email'] = $email;
+            else
+            {
+                $_SESSION['email'] = $email;
+                header ("Location: profile.php");
+            }
+            }
         }
     }
     
     ?>
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<style type="text/css">
+table
+input[type="text"] {width: 95%;} /* removing this would make input not to go over cells border, but they would be too short, I want them to fit cells size */
+
+</style>
+<head>
+
+<title>Registration</title>
+<body>
+<form action="index.php">
+<button>Return to the main page</button><br><br>
+</form>
+
 
 <form method="post" action="create.php">
 <br>
@@ -112,7 +134,7 @@ input[type="text"] {width: 95%;} /* removing this would make input not to go ove
     echo '<br>';
     echo '<span style="color:red">'.$error.'</span>';
     
-    
     ?>
+
 </body>
 </html>
