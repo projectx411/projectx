@@ -1,13 +1,24 @@
 <?php
 		session_start();
-		require_once 'mysql/login.php'; $email = $_SESSION['email'];//$email='jamuell2@illinois.edu';
+		require_once 'mysql/login.php';
+
+		if (isset($_COOKIE["user"]))
+            $email = $_COOKIE["user"];
+        else
+            header ("Location: index.php");
+
+        #$email = $_SESSION['email'];//$email='jamuell2@illinois.edu';
 		$connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
 		$emailArray = mysqli_query($connection, "SELECT name FROM Student WHERE email='$email'");
 		$name = "";
+
 		//$_SESSION['email'] = $email;
 		while ($row = mysqli_fetch_array($emailArray)) {
 			$name = $row['name'];
 		}
+
+        if (!isset($_COOKIE["user"]))
+            header ("Location: index.php");
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -16,7 +27,7 @@
 		<meta charset="utf-8">
 		<title>Project X</title>
 	</head>
-	
+
 	<body>
 		<div class="container">
 			<?php echo '<h1 style="color:#428bca">Welcome '.$name.'</h1>' ?>
@@ -40,11 +51,11 @@
             <li><a href="#">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="#">Logout</a></li>
+            <li class="active"><a href="logout.php">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
-			
+
 			<h3>People Like You</h3>
 			<table class="table table-striped">
 				<thead>
@@ -56,22 +67,22 @@
 				<tbody>
 					<?php
 						$similar_people = mysqli_query($connection, "SELECT * FROM Student")
-						or die(mysql_error());  
+						or die(mysql_error());
 						// store the record of the "tblstudent" table into $row
 
 						while($row = mysqli_fetch_array($similar_people)){
-							// Print out the contents of the entry 
+							// Print out the contents of the entry
 							echo '<tr>';
 							echo '<td>'.$row['name'].'</td>';
 							echo '<td>'.$row['email'].'</td>';
 							echo '<td>'.$row['phoneNumber'].'</td></tr>';
 						}
 
-					?>	
+					?>
 					</tr>
 				<tbody>
 			</table>
-			
+
 			<h3>Your Activities</h3>
 			<ul class="undefined">
 				<?php
@@ -82,7 +93,7 @@
 				?>
 			</ul>
 			<button type="button" class="btn btn-primary" style="margin-bottom:20px;">Add Activity</button>
-			
+
 		</div><!-- /container -->
 	</body>
 </html>

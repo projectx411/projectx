@@ -3,10 +3,10 @@
     require_once 'mysql/login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-    
+
     $error = $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
-    
-    
+
+
     if (isset($_POST['fname']))
     {
         $fname = $_POST['fname'];
@@ -16,9 +16,9 @@
         $email = $_POST['email'];
         $pw1 = $_POST['pw1'];
         $pw2 = $_POST['pw2'];
-        
+
         #echo $fname.'.'.$lname.'.'.$gender.'.'.$phone.'.'.$pw1.'.'.$pw2.'.';
-        
+
         if ($fname == "" || $lname == "" || $gender == "" || $phone ==  "" || $email == "" || $pw1 == "" || $pw2 == "")
         {
             $error .= "Please make sure no empty fields remain.<br /><br />";
@@ -40,8 +40,8 @@
             {
                 $name .= $fname.' '.$lname;
                 #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
-                
-                
+
+
                 $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
                 $result = mysqli_query($connection,$sql);
                 if ( false==$result ) {
@@ -50,13 +50,14 @@
                 else
                 {
                     $_SESSION['email'] = $email;
+                    setcookie("user", $email, time()+3600);
                     header ("Location: profile.php");
                     exit();
                 }
             }
         }
     }
-    
+
     ?>
 
 <!DOCTYPE html>

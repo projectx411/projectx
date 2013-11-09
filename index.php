@@ -3,27 +3,28 @@
     require_once 'mysql/login.php';
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-    
+
     $email = $error = $pw = "";
-    
-    
+
+
     if (isset($_POST['email']))
     {
         $email = $_POST['email'];
         $pw = $_POST['pw'];
-        
+
         if ($email == "" || $pw == "")
         {
             $error = "Please fill out both fields. <br>";
         }
         else
         {
-            
+
             $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
             $result = mysqli_query($connection,$sql);
             if ($result->num_rows == 1)
             {
                 $_SESSION['email'] = $email;
+                setcookie("user", $email, time()+3600);
                 header ("Location: profile.php");
             }
             else
@@ -31,6 +32,13 @@
                 $error = 'Incorrect username/password <br>';
             }
         }
+
+    }
+
+    if (isset($_COOKIE["user"]))
+    {
+        $_SESSION['email'] = $email;
+        header ("Location: profile.php");
     }
     ?>
 
