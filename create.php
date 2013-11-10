@@ -12,19 +12,19 @@
         $error;
         $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
         
-        if (empty($_POST['fname'])) {//if no name has been supplied
+        if (empty($_POST['fname'])) {//if no first name has been supplied
             $error .= 'Please enter your first name<br>';//add to array "error"
         } else {
             $fname = $_POST['fname'];//else assign it a variable
         }
         
-        if (empty($_POST['lname'])) {//if no name has been supplied
+        if (empty($_POST['lname'])) {//if no last name has been supplied
             $error .= 'Please enter your last name<br>';//add to array "error"
         } else {
             $lname = $_POST['lname'];//else assign it a variable
         }
         
-        if (empty($_POST['gender'])) {//if no name has been supplied
+        if (empty($_POST['gender'])) {//if no gender has been supplied
             $error .= 'Please select your gender<br>';//add to array "error"
         } else {
             $gender = $_POST['gender'];//else assign it a variable
@@ -48,7 +48,7 @@
             
         }
         
-        if (empty($_POST['pw1']) or empty($_POST['pw2'])) {//if no name has been supplied
+        if (empty($_POST['pw1']) or empty($_POST['pw2'])) {//if no password has been supplied
             $error .= 'Please enter and confirm your password<br>';//add to array "error"
         } else if ($_POST['pw1'] != $_POST['pw2']) {
             $error .= 'Passwords do not match<br>';
@@ -71,17 +71,19 @@
             
                 $name .= $fname.' '.$lname;
             
+                // generate a unique activation key
                 $activation = md5(uniqid(rand(), true));
 
-
+                // insert user's info into database
                 $sql="INSERT INTO Student (email, password, name, gender, phoneNumber, activation) VALUES('$email', '$pw1', '$name', '$gender', '$phone', '$activation')";
                 $result = mysqli_query($connection,$sql);
+            
                 if ( false==$result ) {
                     printf("error: %s\n", mysqli_error($connection));
                 }
                 else
                 {
-                    
+                    // if successfully inserted, send the activation e-mail from cs411projectx@gmail.com
                     $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com',465, 'ssl')
                     ->setUsername('cs411projectx')
                     ->setPassword('dsg82bvj')
@@ -91,17 +93,14 @@
                     $body = " To activate your account, please click on this link:\n\n";
                     $body .= 'http://web.engr.illinois.edu/~projectx411/activate.php?email=' . urlencode($email) . "&key=$activation";
                     $message = Swift_Message::newInstance('Registration Confirmation')
-                    ->setFrom(array('cs411projectx@gmail.com' => 'John Doe'))
-                    ->setTo(array($email => 'A name'))
+                    ->setFrom(array('cs411projectx@gmail.com' => 'Project X'))
+                    ->setTo(array($email => $name))
                     ->setBody($body)
                     ;
                     
                     // Send the message
                     $result = $mailer->send($message);
                     
-                    #$message = " To activate your account, please click on this link:\n\n";
-                    #$message .= WEBSITE_URL . '/~truszko1/registration/activate.php?email=' . urlencode($email) . "&key=$activation";
-                    #mail($Email, 'Registration Confirmation', $message, 'From: truszko1@illinois.edu');
                     echo '<div style="color:red" class="success">Thank you for registering! A confirmation email has been sent to '.$email.' Please click on the Activation Link to Activate your account </div>';
                 }
             
@@ -126,23 +125,24 @@
 <div class="container">
 
 <form class="form-signin" method="post" action="create.php">
-<a href="index.php">Return to main page</a>
-<h2 class="form-signin-heading" style="margin-top: 10px;">Register</h2>
-<input class="form-control" value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First Name">
-<input class="form-control" value="<?php echo htmlspecialchars($lname);?>" type="text" name="lname" placeholder="Last Name">
-<div id="gender" style="padding: 10px;">
-<span style="font-size: 16px; margin-right: 10px;">Gender</span>
-<input type="radio" name="gender" value="male">Male
-<input type="radio" name="gender" value="female">Female
-</div>
-<input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number (optional)">
-<input class="form-control" value="<?php echo htmlspecialchars($email);?>" type="text" name="email" placeholder="Email Address">
-<input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
-<input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
-<input class="btn btn-lg btn-primary btn-block" type="submit" name="formsubmitted" value="Create Account">
+    <a href="index.php">Return to main page</a>
+    <h2 class="form-signin-heading" style="margin-top: 10px;">Register</h2>
+    <input class="form-control" value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First Name">
+    <input class="form-control" value="<?php echo htmlspecialchars($lname);?>" type="text" name="lname" placeholder="Last Name">
+    <div id="gender" style="padding: 10px;">
+        <span style="font-size: 16px; margin-right: 10px;">Gender</span>
+        <input type="radio" name="gender" value="male">Male
+        <input type="radio" name="gender" value="female">Female
+    </div>
+    <input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number (optional)">
+    <input class="form-control" value="<?php echo htmlspecialchars($email);?>" type="text" name="email" placeholder="Email Address">
+    <input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
+    <input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
+    <input class="btn btn-lg btn-primary btn-block" type="submit" name="formsubmitted" value="Create Account">
 <?php
-    echo '<span style="color:red">'.$error.'</span>';
-    ?>
+echo '<span style="color:red">'.$error.'</span>';
+?>
+
 </form>
 
 </div> <!-- /container -->
