@@ -19,7 +19,7 @@
         else
         {
 
-            $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' LIMIT 1";
+            $sql = "SELECT email FROM Student WHERE email='$email' AND password = '$pw' AND activation IS NULL LIMIT 1";
             $result = mysqli_query($connection,$sql);
             if ($result->num_rows == 1)
             {
@@ -29,7 +29,7 @@
             }
             else
             {
-                $error = 'Incorrect username/password <br>';
+                $error = 'Either Your Account is inactive or Email address /Password is Incorrect<br>';
             }
         }
 

@@ -1,63 +1,113 @@
 <?php
     session_start();
     require_once 'mysql/login.php';
+    require_once 'swift_lib/swift_required.php';
+    ini_set( "display_errors", 0);
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-
-    $error = $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
-
-
-    if (isset($_POST['fname']))
-    {
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $gender = $_POST['gender'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
-        $pw1 = $_POST['pw1'];
-        $pw2 = $_POST['pw2'];
-
-        #echo $fname.'.'.$lname.'.'.$gender.'.'.$phone.'.'.$pw1.'.'.$pw2.'.';
-
-        if ($fname == "" || $lname == "" || $gender == "" || $phone ==  "" || $email == "" || $pw1 == "" || $pw2 == "")
-        {
-            $error .= "Please make sure no empty fields remain.<br /><br />";
-            if ($pw1 != $pw2)
-            {
-                $error .= "Passwords do not match<br /><br />";
-            }
+    
+    
+    if (isset($_POST['formsubmitted'])) {
+        
+        $error;
+        $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
+        
+        if (empty($_POST['fname'])) {//if no name has been supplied
+            $error .= 'Please enter your first name<br>';//add to array "error"
+        } else {
+            $fname = $_POST['fname'];//else assign it a variable
         }
-        else
-        {
-            $sql = "SELECT email FROM Student WHERE email='$email' LIMIT 1";
-            $result = mysqli_query($connection,$sql);
-            if ($result->num_rows == 1)
-            {
-                $error = "This e-mail is already registered. Please choose another e-mail.<br>";
-                $email = "";
+        
+        if (empty($_POST['lname'])) {//if no name has been supplied
+            $error .= 'Please enter your last name<br>';//add to array "error"
+        } else {
+            $lname = $_POST['lname'];//else assign it a variable
+        }
+        
+        if (empty($_POST['gender'])) {//if no name has been supplied
+            $error .= 'Please select your gender<br>';//add to array "error"
+        } else {
+            $gender = $_POST['gender'];//else assign it a variable
+        }
+        
+        if (empty($_POST['email'])) {
+            $error .= 'Please Enter your Email<br>';
+        } else {
+            
+            if (preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $_POST['email'])) {
+                //regular expression for email validation
+                $email = $_POST['email'];
+            } else {
+                $error .= 'Your e-mail Address is invalid<br>';
             }
+            if (array_pop(explode('@', $email)) == "illinois.edu")
+                $email = $_POST['email'];
             else
-            {
+                $error .= 'Only @illinois.edu e-mail accounts are allowed<br>';
+            
+            
+        }
+        
+        if (empty($_POST['pw1']) or empty($_POST['pw2'])) {//if no name has been supplied
+            $error .= 'Please enter and confirm your password<br>';//add to array "error"
+        } else if ($_POST['pw1'] != $_POST['pw2']) {
+            $error .= 'Passwords do not match<br>';
+        }
+        else {
+            $pw1 = $_POST['pw1'];//else assign it a variable
+            $pw2 = $_POST['pw2'];//else assign it a variable
+        }
+
+        
+        $sql = "SELECT email FROM Student WHERE email='$email' LIMIT 1";
+        $result = mysqli_query($connection,$sql);
+        if ($result->num_rows == 1)
+        {
+            $error .= "This e-mail is already registered. Please choose another e-mail.<br>";
+        }
+        
+        if (empty($error )) {
+        
+            
                 $name .= $fname.' '.$lname;
-                #echo 'inserting<br>email: '.$email.'<br>password: '.$pw1.'<br>name: '.$name.'<br>gender: '.$gender.'<br>phoneNumber: '.$phone.'<br>';
+            
+                $activation = md5(uniqid(rand(), true));
 
 
-                $sql="INSERT INTO Student (email, password, name, gender, phoneNumber) VALUES('$email', '$pw1', '$name', '$gender', '$phone')";
+                $sql="INSERT INTO Student (email, password, name, gender, phoneNumber, activation) VALUES('$email', '$pw1', '$name', '$gender', '$phone', '$activation')";
                 $result = mysqli_query($connection,$sql);
                 if ( false==$result ) {
                     printf("error: %s\n", mysqli_error($connection));
                 }
                 else
                 {
-                    $_SESSION['email'] = $email;
-                    setcookie("user", $email, time()+3600);
-                    header ("Location: profile.php");
-                    exit();
+                    
+                    $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com',465, 'ssl')
+                    ->setUsername('cs411projectx')
+                    ->setPassword('dsg82bvj')
+                    ;
+                    
+                    $mailer = Swift_Mailer::newInstance($transport);
+                    $body = " To activate your account, please click on this link:\n\n";
+                    $body .= 'http://web.engr.illinois.edu/~projectx411/activate.php?email=' . urlencode($email) . "&key=$activation";
+                    $message = Swift_Message::newInstance('Registration Confirmation')
+                    ->setFrom(array('cs411projectx@gmail.com' => 'John Doe'))
+                    ->setTo(array($email => 'A name'))
+                    ->setBody($body)
+                    ;
+                    
+                    // Send the message
+                    $result = $mailer->send($message);
+                    
+                    #$message = " To activate your account, please click on this link:\n\n";
+                    #$message .= WEBSITE_URL . '/~truszko1/registration/activate.php?email=' . urlencode($email) . "&key=$activation";
+                    #mail($Email, 'Registration Confirmation', $message, 'From: truszko1@illinois.edu');
+                    echo '<div style="color:red" class="success">Thank you for registering! A confirmation email has been sent to '.$email.' Please click on the Activation Link to Activate your account </div>';
                 }
-            }
+            
         }
     }
-
+    
     ?>
 
 <!DOCTYPE html>
@@ -85,11 +135,11 @@
 <input type="radio" name="gender" value="male">Male
 <input type="radio" name="gender" value="female">Female
 </div>
-<input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number">
+<input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number (optional)">
 <input class="form-control" value="<?php echo htmlspecialchars($email);?>" type="text" name="email" placeholder="Email Address">
 <input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
 <input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
-<input class="btn btn-lg btn-primary btn-block" type="submit" value="Create Account">
+<input class="btn btn-lg btn-primary btn-block" type="submit" name="formsubmitted" value="Create Account">
 <?php
     echo '<span style="color:red">'.$error.'</span>';
     ?>
