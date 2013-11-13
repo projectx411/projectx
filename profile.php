@@ -16,9 +16,7 @@
 		while ($row = mysqli_fetch_array($emailArray)) {
 			$name = $row['name'];
 		}
-
-        if (!isset($_COOKIE["user"]))
-            header ("Location: index.php");
+    
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
