@@ -8,6 +8,9 @@ DROP table Located;
 DROP table Location;
 */
 
+# create the database
+create database if not exists projectx; use projectx;
+
 # create the tables
 create table Student (
 		email			CHAR(255),
