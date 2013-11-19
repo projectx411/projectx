@@ -4,7 +4,7 @@
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
     $email = $_SESSION['email'];
     $emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
-	
+
     $name = '';
     $gender = '';
     $phoneNumber = '';
@@ -230,6 +230,22 @@ $(function() {
                                   var newURL = currentURL.substr(0, idx) + "profile.php";
                                   window.location.href = newURL;
                                   });
+
+  $('#nameModal .btn-success').click(function() {
+  	location.reload();
+  });
+
+  $('#genderModal .btn-success').click(function() {
+  	location.reload();
+  });
+
+  $('#phoneModal .btn-success').click(function() {
+  	location.reload();
+  });
+
+  $('#passModal .btn-success').click(function() {
+  	location.reload();
+  });
   });
 </script>
 </body>
