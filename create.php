@@ -5,35 +5,35 @@
     ini_set( "display_errors", 0);
     /* connect to the db */
     $connection = mysqli_connect($db_hostname,$db_username,$db_password,$db_database);
-    
-    
+
+
     if (isset($_POST['formsubmitted'])) {
-        
+
         $error;
         $fname = $lname = $gender = $phone = $email = $pw1 = $pw2 = "";
-        
+
         if (empty($_POST['fname'])) {//if no first name has been supplied
             $error .= 'Please enter your first name<br>';//add to array "error"
         } else {
             $fname = $_POST['fname'];//else assign it a variable
         }
-        
+
         if (empty($_POST['lname'])) {//if no last name has been supplied
             $error .= 'Please enter your last name<br>';//add to array "error"
         } else {
             $lname = $_POST['lname'];//else assign it a variable
         }
-        
+
         if (empty($_POST['gender'])) {//if no gender has been supplied
             $error .= 'Please select your gender<br>';//add to array "error"
         } else {
             $gender = $_POST['gender'];//else assign it a variable
         }
-        
+
         if (empty($_POST['email'])) {
             $error .= 'Please Enter your Email<br>';
         } else {
-            
+
             if (preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $_POST['email'])) {
                 //regular expression for email validation
                 $email = $_POST['email'];
@@ -44,10 +44,10 @@
                 $email = $_POST['email'];
             else
                 $error .= 'Only @illinois.edu e-mail accounts are allowed<br>';
-            
-            
+
+
         }
-        
+
         if (empty($_POST['pw1']) or empty($_POST['pw2'])) {//if no password has been supplied
             $error .= 'Please enter and confirm your password<br>';//add to array "error"
         } else if ($_POST['pw1'] != $_POST['pw2']) {
@@ -58,26 +58,26 @@
             $pw2 = $_POST['pw2'];//else assign it a variable
         }
 
-        
+
         $sql = "SELECT email FROM Student WHERE email='$email' LIMIT 1";
         $result = mysqli_query($connection,$sql);
         if ($result->num_rows == 1)
         {
             $error .= "This e-mail is already registered. Please choose another e-mail.<br>";
         }
-        
+
         if (empty($error )) {
-        
-            
+
+
                 $name .= $fname.' '.$lname;
-            
+
                 // generate a unique activation key
                 $activation = md5(uniqid(rand(), true));
 
                 // insert user's info into database
                 $sql="INSERT INTO Student (email, password, name, gender, phoneNumber, activation) VALUES('$email', '$pw1', '$name', '$gender', '$phone', '$activation')";
                 $result = mysqli_query($connection,$sql);
-            
+
                 if ( false==$result ) {
                     printf("error: %s\n", mysqli_error($connection));
                 }
@@ -88,7 +88,7 @@
                     ->setUsername('cs411projectx')
                     ->setPassword('dsg82bvj')
                     ;
-                    
+
                     $mailer = Swift_Mailer::newInstance($transport);
                     $body = " To activate your account, please click on this link:\n\n";
                     $body .= 'http://web.engr.illinois.edu/~projectx411/activate.php?email=' . urlencode($email) . "&key=$activation";
@@ -97,16 +97,16 @@
                     ->setTo(array($email => $name))
                     ->setBody($body)
                     ;
-                    
+
                     // Send the message
                     $result = $mailer->send($message);
-                    
+
                     echo '<div style="color:red" class="success">Thank you for registering! A confirmation email has been sent to '.$email.' Please click on the Activation Link to Activate your account </div>';
                 }
-            
+
         }
     }
-    
+
     ?>
 
 <!DOCTYPE html>
@@ -125,9 +125,8 @@
 <div class="container">
 
 <form class="form-signin" method="post" action="create.php">
-    <a href="index.php">Return to main page</a>
     <h2 class="form-signin-heading" style="margin-top: 10px;">Register</h2>
-    <input class="form-control" value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First Name">
+    <input class="form-control" value="<?php echo htmlspecialchars($fname);?>" type="text" name="fname" placeholder="First Name" autofocus>
     <input class="form-control" value="<?php echo htmlspecialchars($lname);?>" type="text" name="lname" placeholder="Last Name">
     <div id="gender" style="padding: 10px;">
         <span style="font-size: 16px; margin-right: 10px;">Gender</span>
@@ -139,6 +138,7 @@
     <input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
     <input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
     <input class="btn btn-lg btn-primary btn-block" type="submit" name="formsubmitted" value="Create Account">
+    <div style="margin-top: 10px;"><a href="index.php">Return to main page</a></div>
 <?php
 echo '<span style="color:red">'.$error.'</span>';
 ?>
