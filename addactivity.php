@@ -93,7 +93,7 @@
             <h3>Your Activities</h3>
             <ul class="undefined">
                 <?php
-                    $acts = mysqli_query($connection, "SELECT activityName FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='jamuell2@illinois.edu';") or die(mysql_error());
+                    $acts = mysqli_query($connection, "SELECT activityName FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='$email';") or die(mysql_error());
                     while($row = mysqli_fetch_array($acts)){
                         echo '<li>'.$row['activityName'].'</li>';
                     }
