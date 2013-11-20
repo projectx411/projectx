@@ -62,11 +62,9 @@
 <td><?php echo $password; ?></td>
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
-<tr>
-<td><button class="btn btn-success" id="profileReturn">Return to Homepage</button></td>
-</tr>
 </thead>
 </table>
+<a href="profile.php">Return to Homepage</a>
 
 <!-- Email Modal -->
 <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -232,12 +230,15 @@ $(function() {
   $(".btn.btn-default").click(function() {
                               location.reload();
                               });
+
+  /*
   $("button#profileReturn").click(function() {
                                   var currentURL = window.location.href;
                                   var idx = currentURL.search("edit_profile");
                                   var newURL = currentURL.substr(0, idx) + "profile.php";
                                   window.location.href = newURL;
                                   });
+ */
 
   $('#nameModal .btn-success').click(function() {
   	location.reload();

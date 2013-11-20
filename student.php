@@ -53,15 +53,9 @@
 <td>Phone Number</td>
 <td><?php echo $phoneNumber; ?></td>
 </tr>
-<tr>
-<td>Password</td>
-<td><?php echo $password; ?></td>
-</tr>
-<tr>
-<td><button class="btn btn-success" id="profileReturn">Return to Homepage</button></td>
-</tr>
 </thead>
 </table>
+<a href="profile.php">Return to Homepage</a>
 </div><!-- /container -->
 
 <script>
