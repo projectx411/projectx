@@ -17,9 +17,9 @@
 			$name = $row['name'];
 		}
 
+		echo '<h1 style="color:#428bca">Welcome '.$name.'</h1>'
 ?>
-<?php echo '<h1 style="color:#428bca">Welcome '.$name.'</h1>' ?>
-<!-- Static navbar -->
+	<!-- Static navbar -->
       <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
