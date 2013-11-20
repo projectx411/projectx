@@ -16,7 +16,7 @@
 		while ($row = mysqli_fetch_array($emailArray)) {
 			$name = $row['name'];
 		}
-    
+
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -28,31 +28,7 @@
 
 	<body>
 		<div class="container">
-			<?php echo '<h1 style="color:#428bca">Welcome '.$name.'</h1>' ?>
-			<!-- Static navbar -->
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">ProjectX</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Add Event</a></li>
-            <li><a href="edit_profile.php">Edit Profile</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="logout.php">Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+		<div id="navbar"></div>
 
 			<h3>People Like You</h3>
 			<table class="table table-striped">
@@ -63,6 +39,7 @@
 				</thead>
 
 				<tbody>
+					<tr>
 					<?php
 						$similar_people = mysqli_query($connection, "SELECT * FROM Student")
 						or die(mysql_error());
@@ -94,4 +71,19 @@
 
 		</div><!-- /container -->
 	</body>
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script>
+		$(function() {
+			$('#navbar').load('navbar.php');
+
+			$('.tableRow').foreach(function() {
+				$(this).on('mouseover', function() {
+					//alert('hi');
+				});
+			});
+		});
+	</script>
 </html>
