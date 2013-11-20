@@ -31,6 +31,7 @@
 <body>
 <div class="container">
 <h1>Edit Profile</h1>
+<div id="navbar"></div>
 <table class="table table-hover" id="attributes">
 <thead>
 <tr>
@@ -168,6 +169,13 @@ New Password: <input name="pass" class="input-xlarge" placeholder="Password" typ
 </div><!-- /container -->
 <script>
 $(function() {
+	$('#navbar').load('navbar.php', function(){
+		$('#tabs li').each(function() {
+			$(this).removeClass('active');
+		});
+		$('#profileTab').addClass('active');
+	});
+
   //twitter bootstrap script
   $("button#phoneSubmit").click(function() {
                                 $.ajax({

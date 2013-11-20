@@ -28,6 +28,7 @@
 
 	<body>
 		<div class="container">
+		<?php echo '<h1 style="color:#428bca">Welcome, '.$name.'!</h1>' ?>
 		<div id="navbar"></div>
 
 			<h3>People Like You</h3>
@@ -77,7 +78,12 @@
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script>
 		$(function() {
-			$('#navbar').load('navbar.php');
+			$('#navbar').load('navbar.php', function(){
+				$('#tabs li').each(function() {
+					$(this).removeClass('active');
+				});
+				$('#peopleTab').addClass('active');
+			});
 
 			$('.tableRow').foreach(function() {
 				$(this).on('mouseover', function() {
