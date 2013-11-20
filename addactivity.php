@@ -11,17 +11,11 @@
         #$email = $_SESSION['email'];//$email='jamuell2@illinois.edu';
         $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
         $emailArray = mysqli_query($connection, "SELECT name FROM Student WHERE email='$email'");
-        $name = "";
-
-        //$_SESSION['email'] = $email;
-        while ($row = mysqli_fetch_array($emailArray)) {
-            $name = $row['name'];
-        }
 
         if(isset($_POST['toadd']))
         {
 
-            echo "Its here, Its here!!!";
+            //echo "Its here, Its here!!!";
             $acti = $_POST['toadd'];
             $index = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti' ");
             $finfo = $index -> fetch_array();
@@ -36,58 +30,38 @@
             $message = "success!";
       }
 
-      var_dump($_POST);
-    
+      //var_dump($_POST);
+
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <meta charset="utf-8">
-        <title>Project X</title>
+        <title>Project X: Add Activity</title>
+        <style>
+        	#searchButton { margin-top: 3px; padding: 3px 6px 3px 6px; }
+        </style>
     </head>
 
-<script type="text/javascript" src="js/jquery.js"></script> 
-<script type="text/javascript" src="js/bootstrap.js"></script> 
-<script type="text/javascript" src="js/typeahead.js"></script> 
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/typeahead.js"></script>
 
     <body>
         <div class="container">
-            <?php echo '<h1 style="color:#428bca">Welcome '.$name.'</h1>' ?>
-            <!-- Static navbar -->
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">ProjectX</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Add Event</a></li>
-            <li><a href="edit_profile.php">Edit Profile</a></li>
-            <li class="active"><a href="#">Add Activity</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="logout.php">Logout</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+		<h1>Activities</h1>
+		<div id="navbar"></div>
 
-            <h3>Activities You May Like</h3>
-            <table class="table table-striped">
-            <form method='post' action='addactivity.php'> 
-            <input type="text" class = "activity" name="toadd" placeholder="Stary typing an activity" >
-            <input type='submit' value='Submit' /> 
+            <h3>Search</h3>
+            <form method='post' action='addactivity.php'>
+            <div id="formDiv">
+            <input type="text" class="activity" name="toadd" placeholder="Start typing an activity" />
+			<button id="searchButton" type="submit" class="btn btn-default">Add</button>
             <?php echo $message;?>
-
+            </div>
             </form>
+            <table class="table table-striped">
              <thead>
                     <tr>
                         <th>Activity</th><th>Category</th>
@@ -125,13 +99,20 @@
                     }
                 ?>
             </ul>
-            <button type="button" class="btn btn-primary" style="margin-bottom:20px;">Add Activity</button>
 
         </div><!-- /container -->
 
         <script type="text/javascript">
 
     $(document).ready(function() {
+
+	$('#navbar').load('navbar.php', function(){
+		$('#tabs li').each(function() {
+			$(this).removeClass('active');
+		});
+		$('#activityTab').addClass('active');
+	});
+
     $('input.activity').typeahead({
     name: 'accounts',
     local:<?php echo json_encode($activityList)?>

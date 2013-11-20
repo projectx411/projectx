@@ -14,6 +14,7 @@
             <li id="peopleTab"><a href="profile.php">Find People</a></li>
             <li id="eventTab"><a href="#">Add Event</a></li>
             <li id="profileTab"><a href="edit_profile.php">Edit Profile</a></li>
+            <li id="activityTab"><a href="addactivity.php">Add Activity</a></li>
             <li id="aboutTab"><a href="#">About</a></li>
             <li id="contactTab"><a href="#">Contact</a></li>
           </ul>
