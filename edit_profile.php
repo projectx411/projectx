@@ -62,7 +62,7 @@
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
 <tr>
-<td><button class="btn btn-success" id="profileReturn">Return to Profile</button></td>
+<td><button class="btn btn-success" id="profileReturn">Return to Homepage</button></td>
 </tr>
 </thead>
 </table>
