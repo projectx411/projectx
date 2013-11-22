@@ -2,19 +2,19 @@
     session_start();
     require_once 'mysql/login.php';
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
-    $email = $_POST['email'];
-    $emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
+	$email = $_POST['email'];
+	$emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
 
-    $name = '';
-    $gender = '';
-    $phoneNumber = '';
-    $password = '';
-    while ($row = mysqli_fetch_array($emailArray)) {
-        $name = $row['name'];
-        $gender = $row['gender'];
-        $phoneNumber = $row['phoneNumber'];
-        $password = $row['password'];
-    }
+	$name = '';
+	$gender = '';
+	$phoneNumber = '';
+	$password = '';
+	while ($row = mysqli_fetch_array($emailArray)) {
+		$name = $row['name'];
+		$gender = $row['gender'];
+		$phoneNumber = $row['phoneNumber'];
+		$password = $row['password'];
+	}
     ?>
 
 <!DOCTYPE html>

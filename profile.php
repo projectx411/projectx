@@ -77,10 +77,12 @@
 			$('.tableRow').each(function() {
 				$(this).on('click', function() {
 					var e = $(this).children('.targetEmail').text();
+					var postData = new Object();
+					postData.email = e;
 					$.ajax({
 					  type: 'POST',
 					  url: 'student.php',
-					  data: {'email': e},
+					  data: postData,
 					  cache: false,
 					  success: function(data) { window.location = 'student.php'; }
 					});

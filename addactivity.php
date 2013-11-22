@@ -17,15 +17,13 @@
 
             //echo "Its here, Its here!!!";
             $acti = $_POST['toadd'];
+            //echo $acti;
+            $insert = mysqli_query($connection, "INSERT INTO Activity(activityName) SELECT * FROM (SELECT '$acti') AS tmp1 WHERE NOT EXISTS (SELECT activityName FROM Activity WHERE activityName = '$acti') LIMIT 1");
+            //echo $insert;
             $index = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti' ");
             $finfo = $index -> fetch_array();
-            $result= mysqli_query($connection, "INSERT INTO  `projectx411_main`.`Does` (
-                                            `idDoes` ,
-                                            `email` ,
-                                            `idActivity`
-                                            )
-                                            VALUES (
-                                            NULL ,  '$email',  '$finfo[0]'");
+            //echo $finfo[0];
+            $result= mysqli_query($connection, "INSERT INTO Does(email, idActivity) SELECT * FROM (SELECT '$email',  '$finfo[0]') AS tmp2 WHERE NOT EXISTS (SELECT email, idActivity FROM Does WHERE email = '$email' AND idActivity = '$finfo[0]') LIMIT 1");
 
             $message = "success!";
       }
