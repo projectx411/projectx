@@ -69,6 +69,7 @@
         </div>
     </body>
 
+    <input class="btn" type="submit" value="Create an event (soon to come! :D)" style="margin-left: 80px;">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
