@@ -38,6 +38,8 @@
         <meta charset="utf-8">
         <title>Project X: Add Activity</title>
         <style>
+        	#searchDiv { margin-left: 24px; }
+        	#searchBox { width: 450px; }
         	#searchButton { margin-top: 3px; padding: 3px 6px 3px 6px; }
         </style>
     </head>
@@ -54,8 +56,10 @@
             <h3>Search</h3>
             <form method='post' action='addactivity.php'>
             <div id="formDiv">
-            <input type="text" class="activity" name="toadd" placeholder="Start typing an activity" />
-			<button id="searchButton" type="submit" class="btn btn-default">Add</button>
+            	<div id="searchDiv">
+					<input id="searchBox" type="text" class="activity" name="toadd" placeholder="Start typing to search for an activity, or type in a non-existing one." />
+					<button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
+            	</div>
             <?php echo $message;?>
             </div>
             </form>
@@ -81,6 +85,7 @@
                             echo '<td>'.$row['activityName'].'</td>';
                            // echo '<td>'.$activityList[0].'</td>';
                             echo '<td>'.$row['categoryName'].'</td>';
+                            echo '</tr>';
                         }
 
                     ?>

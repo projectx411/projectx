@@ -2,7 +2,7 @@
     session_start();
     require_once 'mysql/login.php';
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
-	$email = $_POST['email'];
+	$email = $_GET['email'];
 	$emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
 
 	$name = '';
@@ -15,7 +15,7 @@
 		$phoneNumber = $row['phoneNumber'];
 		$password = $row['password'];
 	}
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -55,6 +55,19 @@
 </tr>
 </thead>
 </table>
+<table class="table table-hover">
+<thead>
+<tr><th>Activites</th></tr>
+<?php
+	$activityArray = mysqli_query($connection, "SELECT Activity.activityName FROM Activity, Does WHERE Activity.idActivity=Does.idActivity AND Does.email='$email'");
+	while($row = mysqli_fetch_array($activityArray)){
+		echo '<tr>';
+		echo '<td>'.$row['activityName'].'</td>';
+		echo '</tr>';
+	}
+?>
+</thead>
+</table>
 <a href="profile.php">Return to Homepage</a>
 </div><!-- /container -->
 
@@ -64,6 +77,7 @@ $(function() {
 		$('#tabs li').each(function() {
 			$(this).removeClass('active');
 		});
+		$('#peopleTab').addClass('active');
 	});
 });
 </script>

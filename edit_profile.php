@@ -181,7 +181,7 @@ $(function() {
                                        url: "updatePost.php",
                                        data: $('form.phoneForm').serialize(),
                                        success: function(msg) {
-                                       //alert("success");
+  										window.location = 'edit_profile.php';
                                        },
                                        error: function() {
                                        //alert("error");
@@ -194,7 +194,7 @@ $(function() {
                                       url: "updatePost.php",
                                       data: $('form.passForm').serialize(),
                                       success: function(msg) {
-                                      //alert("success");
+  										window.location = 'edit_profile.php';
                                       },
                                       error: function() {
                                       //alert("error");
@@ -207,7 +207,7 @@ $(function() {
                                       url: "updatePost.php",
                                       data: $('form.nameForm').serialize(),
                                       success: function(msg) {
-                                      //alert("success");
+  										window.location = 'edit_profile.php';
                                       },
                                       error: function() {
                                       //alert("error");
@@ -220,16 +220,13 @@ $(function() {
                                         url: "updatePost.php",
                                         data: $('form.genderForm').serialize(),
                                         success: function(msg) {
-                                        //alert("success");
+  										window.location = 'edit_profile.php';
                                         },
                                         error: function() {
                                         //alert("error");
                                         }
                                         });
                                  });
-  $(".btn.btn-default").click(function() {
-                              location.reload();
-                              });
 
   /*
   $("button#profileReturn").click(function() {
@@ -239,22 +236,6 @@ $(function() {
                                   window.location.href = newURL;
                                   });
  */
-
-  $('#nameModal .btn-success').click(function() {
-  	location.reload();
-  });
-
-  $('#genderModal .btn-success').click(function() {
-  	location.reload();
-  });
-
-  $('#phoneModal .btn-success').click(function() {
-  	location.reload();
-  });
-
-  $('#passModal .btn-success').click(function() {
-  	location.reload();
-  });
   });
 </script>
 </body>
