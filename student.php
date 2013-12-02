@@ -20,6 +20,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
+<link rel="shortcut icon" href="images/favicon.ico">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>

@@ -21,6 +21,7 @@
 <html lang="en-US">
 <head>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="shortcut icon" href="images/favicon.ico">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.js"></script>

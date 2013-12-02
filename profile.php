@@ -21,6 +21,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
 	<head>
+		<link rel="shortcut icon" href="images/favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<meta charset="utf-8">
 		<title>Project X</title>
