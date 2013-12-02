@@ -25,7 +25,7 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 <meta charset="utf-8">
-<title>Project X: Edit Profile</title>
+<title>Edit Profile</title>
 </head>
 
 <body>

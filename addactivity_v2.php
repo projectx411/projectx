@@ -28,9 +28,9 @@
         {
             // do nothing
         }
-            
+
         echo "</br>";
-            
+
         // if the activity isn't assigned to $email, insert into Does
         $idActivity = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti'");
         $idActivity = $idActivity -> fetch_array();
@@ -52,8 +52,10 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <meta charset="utf-8">
-        <title>Project X: Add Activity</title>
+        <title>Activities</title>
         <style>
+        	#searchDiv { margin-left: 24px; }
+        	#searchBox { width: 450px; }
         	#searchButton { margin-top: 3px; padding: 3px 6px 3px 6px; }
             div.categoryList
             {
@@ -93,22 +95,22 @@
                     $categoryList[] = $row[0];
                 }
             ?>
+            <h3>Find an Activity</h3>
             <table table-layout=fixed width= 100% class="table table-striped">
                 <thead>
-                    <tr><th>Categories</th><th>Activities</th></tr>
+                    <tr><th style="width: 150px;">Categories</th><th>Activities</th></tr>
                 </thead>
-                <tbody>
                     <?php
                         $q = "SELECT COUNT(DISTINCT categoryName) FROM Activity";
                         $r = mysqli_query($connection, $q);
                         $numberOfCategories = mysqli_fetch_array($r);
                         while ($cnt < $numberOfCategories[0])
                         {
-                            echo "<tr><td width=50%><b><p class=activityCategory id=".$categoryList[$cnt].">".$categoryList[$cnt]."</p></b></td>";
+                            echo "<tr><td><b><p class=activityCategory id=".$categoryList[$cnt].">".$categoryList[$cnt]."</p></b></td>";
                             // echo all activities under multiple divs, each corresponding to a category
                             if ($cnt == 0)
                             {
-                                echo "<td width=50% rowspan=".$numberOfCategories[0].">";
+                                echo "<td rowspan=".$numberOfCategories[0].">";
                                 $cnt2=0;
                                 while ($cnt2 < $numberOfCategories[0])
                                 {
@@ -136,31 +138,26 @@
                             $cnt++;
                         }
                     ?>
-                </tbody>
             </table>
-            <div class="row">
-                <div class="col-md-3">
-                    <h3>Search</h3>
-                    <form method='post' action='addactivity.php'>
-                        <div id="formDiv">
-                            <input type="text" class="activity" name="toadd" placeholder="Start typing an activity" />
-                            <button id="searchButton" type="submit" class="btn btn-default">Add</button>
-                            <?php echo $message; ?>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-3">
-                    <h3>Your Activities</h3>
-                    <ul class="undefined">
-                        <?php
-                            $acts = mysqli_query($connection, "SELECT activityName FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='$email';") or die(mysql_error());
-                            while($row = mysqli_fetch_array($acts)){
-                                echo "<li><a href=activity_info_page.php?activity=".$row['activityName'].">".$row['activityName'].'</a></li>';
-                            }
-                        ?>
-                    </ul>
-                </div>
-            </div>
+				<h3>Add an Activity</h3>
+				<form method='post' action='addactivity.php'>
+					<div id="formDiv">
+						<div id="searchDiv">
+							<input id="searchBox" type="text" class="activity" name="toadd" placeholder="Start typing to search for an activity, or type in a non-existing one." />
+							<button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
+						</div>
+					<?php echo $message;?>
+					</div>
+				</form>
+				<h3>Your Activities</h3>
+				<ul class="undefined">
+					<?php
+						$acts = mysqli_query($connection, "SELECT activityName FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='$email';") or die(mysql_error());
+						while($row = mysqli_fetch_array($acts)){
+							echo "<li><a href=activity_info_page.php?activity=".$row['activityName'].">".$row['activityName'].'</a></li>';
+						}
+					?>
+				</ul>
         </div><!-- /container -->
         <script type="text/javascript">
             // hide and show activities
@@ -168,10 +165,10 @@
             $('p.activityCategory').bind('mouseover', function() {
                 $('div.categoryList').hide();
                 $('#'+$(this).attr('id')+'list').show();
-            }); 
+            });
 
             // fade out arror after 2s
-            $(".error").delay(2000).fadeOut(1000); 
+            $(".error").delay(2000).fadeOut(1000);
 
             // navbar and search box
             $(document).ready(function() {

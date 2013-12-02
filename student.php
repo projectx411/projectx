@@ -25,17 +25,18 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
 <meta charset="utf-8">
-<?php echo '<title>Project X: '.$name.'</title>'; ?>
+<?php echo '<title>'.$name.'</title>'; ?>
 </head>
 
 <body>
 <div class="container">
 <?php echo '<h1>'.$name.'\'s Profile</h1>'; ?>
 <div id="navbar"></div>
+<h3>Information</h3>
 <table class="table table-hover" id="attributes">
 <thead>
 <tr>
-<th>Attribute</th><th>Current</th>
+<th style="width: 200px;">Attribute</th><th>Current</th>
 </tr>
 <tr>
 <td>Email</td>
@@ -55,19 +56,19 @@
 </tr>
 </thead>
 </table>
-<table class="table table-hover">
-<thead>
-<tr><th>Activites</th></tr>
-<?php
-	$activityArray = mysqli_query($connection, "SELECT Activity.activityName FROM Activity, Does WHERE Activity.idActivity=Does.idActivity AND Does.email='$email'");
-	while($row = mysqli_fetch_array($activityArray)){
-		echo '<tr>';
-		echo '<td>'.$row['activityName'].'</td>';
-		echo '</tr>';
-	}
-?>
-</thead>
-</table>
+<h3>Activities</h3>
+<ul>
+	<?php
+		$activityArray = mysqli_query($connection, "SELECT Activity.activityName FROM Activity, Does WHERE Activity.idActivity=Does.idActivity AND Does.email='$email'");
+		$noRows = true;
+		while($row = mysqli_fetch_array($activityArray)){
+			echo "<li><a href=activity_info_page.php?activity=".$row['activityName'].">".$row['activityName'].'</a></li>';
+			$noRows = false;
+		}
+		if ($noRows)
+			echo 'None... yet.';
+	?>
+</ul>
 <a href="profile.php">Return to Homepage</a>
 </div><!-- /container -->
 

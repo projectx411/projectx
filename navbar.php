@@ -13,7 +13,7 @@
           <ul id="tabs" class="nav navbar-nav">
             <li id="peopleTab"><a href="profile.php">Find People</a></li>
             <li id="profileTab"><a href="edit_profile.php">Edit Profile</a></li>
-            <li id="activityTab"><a href="addactivity.php">Activities</a></li>
+            <li id="activityTab"><a href="addactivity_v2.php">Activities</a></li>
             <li id="eventTab"><a href="#">Events</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

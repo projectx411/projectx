@@ -15,23 +15,24 @@
     while ($row = mysqli_fetch_array($emailArray)) {
         $name = $row['name'];
     }
-        
+
     $activity = $_GET['activity'];
 
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-            <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-            <meta charset="utf-8">
-        <title>Project X</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <meta charset="utf-8">
+        <style>
+			.tableRow { cursor: pointer; cursor: hand; }
+        </style>
+        <?php echo '<title>'.$activity.'</title>'; ?>
     </head>
     <body>
         <div class="container">
-            <?php echo '<h1 style="color:#428bca">Welcome, '.$name.'!</h1>' ?>
+            <?php echo '<h1>About '.$activity.'</h1>' ?>
             <div id="navbar"></div>
-            <h3>About <?php echo $activity; ?></h3>
-
             <div class="row">
                 <div class="col-md-6">
                     <table class="table table-hover">
@@ -42,12 +43,13 @@
                         </thead>
                         <tbody>
                             <?php
-                                $names = mysqli_query($connection, "SELECT Student.name FROM Student inner join Does on Student.email = Does.email inner join Activity on Does.idActivity = Activity.idActivity where activityName = '$activity'") or die(mysql_error());
+                                $names = mysqli_query($connection, "SELECT Student.* FROM Student inner join Does on Student.email = Does.email inner join Activity on Does.idActivity = Activity.idActivity where activityName = '$activity'") or die(mysql_error());
                                 // store the record of the "tblstudent" table into $row
                                 while($row = mysqli_fetch_array($names)){
                                     // Print out the contents of the entry
                                     echo '<tr class="tableRow">';
-                                    echo '<td>'.$row[0].'</td></tr>';
+                                    echo '<td>'.$row['name'].'</td>';
+									echo '<td class="targetEmail" hidden>'.$row['email'].'</td></tr>';
                                 }
 
                             ?>
@@ -66,10 +68,9 @@
                     </table>
                 </div>
             </div>
+    		<input class="btn" type="submit" value="Create an event (soon to come! :D)">
         </div>
     </body>
-
-    <input class="btn" type="submit" value="Create an event (soon to come! :D)" style="margin-left: 80px;">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -79,8 +80,15 @@
                 $('#tabs li').each(function() {
                     $(this).removeClass('active');
                 });
-                $('#peopleTab').addClass('active');
+                $('#activityTab').addClass('active');
             });
+
+			$('.tableRow').each(function() {
+				$(this).on('click', function() {
+					var e = $(this).children('.targetEmail').text();
+					window.location = 'student.php?email='+e;
+				});
+			});
         });
     </script>
 
