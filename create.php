@@ -30,8 +30,14 @@
             $gender = $_POST['gender'];//else assign it a variable
         }
 
+        if (empty($_POST['phone'])) {//if no phone number has been supplied
+            $error .= 'Please enter your phone number<br>';//add to array "error"
+        } else if (strlen($_POST['phone']) != 10) {
+            $error .= 'Please provide a 10-digit phone number<br>';//add to array "error"
+        }
+
         if (empty($_POST['email'])) {
-            $error .= 'Please Enter your Email<br>';
+            $error .= 'Please enter your email<br>';
         } else {
 
             if (preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $_POST['email'])) {
@@ -133,7 +139,7 @@
         <input type="radio" name="gender" value="male">Male
         <input type="radio" name="gender" value="female">Female
     </div>
-    <input class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number (optional)">
+    <input id="phoneNumber" class="form-control" value="<?php echo htmlspecialchars($phone);?>" type="text" name="phone" placeholder="Phone Number (Digits only)">
     <input class="form-control" value="<?php echo htmlspecialchars($email);?>" type="text" name="email" placeholder="Email Address">
     <input type="password" class="form-control" placeholder="Password" name="pw1" style="margin-bottom: -1px;">
     <input type="password" class="form-control" placeholder="Confirm Password" name="pw2">
@@ -149,6 +155,35 @@ echo '<span style="color:red">'.$error.'</span>';
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
+
+    $(document).ready(function() {
+
+    	var numDigits = 0;
+
+		// Only allow numeric input into phone field.
+		$('#phoneNumber').keydown(function(event) {
+
+			var len = $(this).val().length;
+
+			// Allow exceptions.
+			if	(event.keyCode == 46 || event.keyCode == 9 ||
+				(event.keyCode == 65 && event.ctrlKey) ||
+				(event.keyCode == 67 && event.ctrlKey) ||
+				(event.keyCode == 88 && event.ctrlKey) ||
+				(event.keyCode == 86 && event.ctrlKey) ||
+				(event.keyCode >= 35 && event.keyCode <= 45) ||
+				(event.keyCode == 13) || (event.keyCode == 8)) {
+					return;
+			}else if (event.keyCode >= 48 && event.keyCode <= 57 && !(event.shiftKey)) {
+				if (len == 10) event.preventDefault();
+			}else{
+				// For everything else, if it is not a number, block its functionality.
+				if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+					event.preventDefault();
+				}
+			}
+		});
+	});
 
 </script>
 

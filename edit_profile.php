@@ -134,7 +134,7 @@ New Name: <input name="name" class="input-xlarge" placeholder="Name" type="text"
 </div>
 <form class="phoneForm">
 <div class="modal-body">
-New Phone Number: <input name="number" class="input-xlarge" placeholder="(xxx)xxx-xxxx" type="text">
+New Phone Number: <input id="phoneNumber" name="number" class="input-xlarge" placeholder="Digits only" type="text">
 </div>
 </form>
 <div class="modal-footer">
@@ -167,6 +167,33 @@ New Password: <input name="pass" class="input-xlarge" placeholder="Password" typ
 </div><!-- /container -->
 <script>
 $(function() {
+
+	var numDigits = 0;
+
+	// Only allow numeric input into phone field.
+	$('#phoneNumber').keydown(function(event) {
+
+		var len = $(this).val().length;
+
+		// Allow exceptions.
+		if	(event.keyCode == 46 || event.keyCode == 9 ||
+			(event.keyCode == 65 && event.ctrlKey) ||
+			(event.keyCode == 67 && event.ctrlKey) ||
+			(event.keyCode == 88 && event.ctrlKey) ||
+			(event.keyCode == 86 && event.ctrlKey) ||
+			(event.keyCode >= 35 && event.keyCode <= 45) ||
+			(event.keyCode == 13) || (event.keyCode == 8)) {
+				return;
+		}else if (event.keyCode >= 48 && event.keyCode <= 57 && !(event.shiftKey)) {
+			if (len == 10) event.preventDefault();
+		}else{
+			// For everything else, if it is not a number, block its functionality.
+			if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+				event.preventDefault();
+			}
+		}
+	});
+
 	$('#navbar').load('navbar.php', function(){
 		$('#tabs li').each(function() {
 			$(this).removeClass('active');
