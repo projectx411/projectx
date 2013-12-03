@@ -7,13 +7,13 @@
     else
         header ("Location: index.php");
 
-    $message = "";
+    $message = '';
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
     $emailArray = mysqli_query($connection, "SELECT name FROM Student WHERE email='$email'");
 
     if(isset($_POST['toadd']))
     {
-        $message = "";
+        $message = '';
         $acti = $_POST['toadd'];
 
         // if the activity is not in the Activity database, add it with a categoryName="other"
@@ -22,14 +22,14 @@
         if ($checkIfActivityExists[0] == "")
         {
             $insert = mysqli_query($connection,"INSERT INTO Activity (activityName, categoryName) values ('$acti','other')");
-            $message .= $acti. " was successfully added to the list of activities under 'other'.</br>";
+            //$message .= $acti. " was successfully added to the list of activities under 'other'.</br>";
         }
         else
         {
             // do nothing
         }
 
-        echo "</br>";
+        echo '</br>';
 
         // if the activity isn't assigned to $email, insert into Does
         $idActivity = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti'");
@@ -39,11 +39,13 @@
         if ($checkIfActivityAssigned[0] == "")
         {
             $insert = mysqli_query($connection,"INSERT INTO Does (email, idActivity) values ('$email','$idActivity[0]')");
-            $message .= "<div class=error style=color:#15B318>".$acti." was successfully added to your profile.</div>";
+            $cat = mysqli_query($connection, "SELECT categoryName FROM Activity WHERE idActivity='$idActivity[0]' limit 1");
+            $cat = $cat -> fetch_array();
+            $message .= '<div class="error" style="color:#15B318">'.$acti.' was successfully added to your profile under '.$cat[0].'.</div>';
         }
         else
         {
-            $message .= "<div class=error style=color:#B50000>".$acti." is already in your activities!</div>";
+            $message .= '<div class="error" style="color:#B50000">'.$acti.' is already in your activities!</div>';
         }
     }
 ?>
@@ -77,6 +79,7 @@
         <div class="container">
     		<h1>Activities</h1>
     		<div id="navbar"></div>
+			<?php echo $message;?>
             <?php
                 // get all categories
                 $activityList= array();
@@ -107,11 +110,11 @@
                         $numberOfCategories = mysqli_fetch_array($r);
                         while ($cnt < $numberOfCategories[0])
                         {
-                            echo "<tr><td><b><p class=activityCategory id=".$categoryList[$cnt].">".$categoryList[$cnt]."</p></b></td>";
+                            echo '<tr><td><b><p class="activityCategory" id="'.$categoryList[$cnt].'">'.$categoryList[$cnt].'</p></b></td>';
                             // echo all activities under multiple divs, each corresponding to a category
                             if ($cnt == 0)
                             {
-                                echo "<td rowspan=".$numberOfCategories[0].">";
+                                echo '<td rowspan="'.$numberOfCategories[0].'">';
                                 $cnt2=0;
                                 while ($cnt2 < $numberOfCategories[0])
                                 {
@@ -121,33 +124,32 @@
                                     $cnt3[0]--;
                                     $query = "SELECT activityName FROM Activity where categoryName='".$categoryList[$cnt2]."'";
                                     $r3 = mysqli_query($connection, $query);
-                                    echo "<div id=".$categoryList[$cnt2]."list class=categoryList>";
+                                    echo '<div id="'.$categoryList[$cnt2].'list" class="categoryList">';
                                     $cnt4 = 0;
                                     while($row = mysqli_fetch_array($r3))
                                     {
-                                        echo "<a href=activity_info_page.php?activity=".$row[0].">".$row[0]."</a>";
+                                        echo '<a href="activity_info_page.php?activity='.$row[0].'">'.$row[0].'</a>';
                                         if ($cnt4 < $cnt3[0])
                                             echo ", ";
                                         $cnt4++;
                                     }
-                                    echo "</div>";
+                                    echo '</div>';
                                     $cnt2++;
                                 }
-                                echo "</td>";
+                                echo '</td>';
                             }
-                            echo "</tr>";
+                            echo '</tr>';
                             $cnt++;
                         }
                     ?>
             </table>
 				<h3>Add an Activity</h3>
-				<form method='post' action='addactivity.php'>
+				<form id="addActivityForm" method='post' action='addactivity_v2.php'>
 					<div id="formDiv">
 						<div id="searchDiv">
 							<input id="searchBox" type="text" class="activity" name="toadd" placeholder="Start typing to search for an activity, or type in a non-existing one." />
 							<button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
 						</div>
-					<?php echo $message;?>
 					</div>
 				</form>
 				<h3>Your Activities</h3>
@@ -155,7 +157,7 @@
 					<?php
 						$acts = mysqli_query($connection, "SELECT activityName FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='$email';") or die(mysql_error());
 						while($row = mysqli_fetch_array($acts)){
-							echo "<li><a href=activity_info_page.php?activity=".$row['activityName'].">".$row['activityName'].'</a></li>';
+							echo '<li><a href="activity_info_page.php?activity='.$row['activityName'].'">'.$row['activityName'].'</a></li>';
 						}
 					?>
 				</ul>

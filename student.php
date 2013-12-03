@@ -63,7 +63,7 @@
 		$activityArray = mysqli_query($connection, "SELECT Activity.activityName FROM Activity, Does WHERE Activity.idActivity=Does.idActivity AND Does.email='$email'");
 		$noRows = true;
 		while($row = mysqli_fetch_array($activityArray)){
-			echo "<li><a href=activity_info_page.php?activity=".$row['activityName'].">".$row['activityName'].'</a></li>';
+			echo '<li><a href="activity_info_page.php?activity='.$row['activityName'].'">'.$row['activityName'].'</a></li>';
 			$noRows = false;
 		}
 		if ($noRows)

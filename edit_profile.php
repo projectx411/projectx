@@ -46,21 +46,21 @@
 <tr>
 <td>Name</td>
 <?php echo '<td>'.$name.'</td>'; ?>
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#nameModal"">Update Name</button></td>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#nameModal">Update Name</button></td>
 </tr>
 <tr>
 <td>Gender</td>
-<td><?php echo $gender; ?></td>
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#genderModal"">Update Gender</button></td>
+<?php echo '<td>'.$gender.'</td>'; ?>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#genderModal">Update Gender</button></td>
 </tr>
 <tr>
 <td>Phone Number</td>
-<td><?php echo $phoneNumber; ?></td>
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#phoneModal"">Update Phone Number</button></td>
+<?php echo '<td>'.$phoneNumber.'</td>'; ?>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#phoneModal">Update Phone Number</button></td>
 </tr>
 <tr>
 <td>Password</td>
-<td><?php echo $password; ?></td>
+<?php echo '<td>'.$password.'</td>'; ?>
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
 </thead>
