@@ -6,6 +6,7 @@ DROP table Does;
 DROP table Activity;
 DROP table Located;
 DROP table Location;
+DROP table Event;
 */
 
 # create the database
@@ -48,4 +49,15 @@ create table Location (
 		locationName	char(255),
 		address			char(255),
 		PRIMARY KEY (idLocation)
+	);
+
+create table Event (
+		idEvent			INT NOT NULL AUTO_INCREMENT,
+		name			char(255),
+		description		char(255),
+		activity		char(255),
+		location		char(255),
+		ts				datetime DEFAULT 0,
+		creator			char(255),
+		PRIMARY KEY (idEvent)
 	);
