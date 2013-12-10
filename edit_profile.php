@@ -69,20 +69,20 @@
 
 <!-- Email Modal -->
 <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<h4 class="modal-title" id="myModalLabel">Update Email</h4>
-</div>
-<div class="modal-body">
-You cannot change your email. If you have another @illinois.edu account, please create another account.
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-</div>
-</div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Update Email</h4>
+			</div>
+			<div class="modal-body">
+				You cannot change your email. If you have another @illinois.edu account, please create another account.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- Name Modal -->
 <div class="modal fade" id="nameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -255,6 +255,13 @@ $(function() {
                                         }
                                         });
                                  });
+                                 
+   $(".modal-content").find("button").click(function() {
+                                 	$('#myModal').modal('hide');
+									$('body').removeClass('modal-open');
+									$('.modal-backdrop').remove();
+					             });
+                                
 
   /*
   $("button#profileReturn").click(function() {

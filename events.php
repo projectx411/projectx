@@ -251,7 +251,7 @@
                             </div> <!-- /container -->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="modalClose">Close</button>
                             <button type="button" class="btn btn-primary" id="create">Create an event</button>
                         </div>
                     </div><!-- /.modal-content -->
@@ -293,6 +293,12 @@
             </table>
         </div><!-- /container -->
         <script type="text/javascript">
+        	function closeModal() {
+        		$('#myModal').modal('hide');
+				$('body').removeClass('modal-open');
+				$('.modal-backdrop').remove();
+        	}
+        
             $("button#create").click(function() {
                 var error = "";
                 var eventName = document.getElementsByName("eventName")[0].value;
@@ -324,7 +330,15 @@
                         }
                     });
                 }
-            });
+                
+                if (eventName && street && city) {
+                	closeModal();
+                }
+			});
+			
+			$("button#modalClose").click(function() {
+				closeModal();
+			});
 
             // hide and show activities
             $('div.errorName').hide();
