@@ -54,6 +54,8 @@
     <head>
 		<link rel="shortcut icon" href="images/favicon.ico">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+                <link rel="stylesheet" type="text/css"href="css/typeahead.js-bootstrap.css" >
+
         <meta charset="utf-8">
         <title>Activities</title>
         <style>
