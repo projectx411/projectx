@@ -88,10 +88,14 @@
 								echo '<td>'.$row['phoneNumber'].'</td>';
 
 								echo '<td><div class="progress">';
-								if ($percent_match > 70) {
+								if ($percent_match > 80) {
 									$bar = '<div class="progress-bar progress-bar-success"';
-								} else if ($percent_match > 30) {
+								} else if ($percent_match > 60) {
+									$bar = '<div class="progress-bar progress-bar-high-middle"';
+								} else if ($percent_match > 40) {
 									$bar = '<div class="progress-bar progress-bar-warning"';
+								} else if ($percent_match > 20) {
+									$bar = '<div class="progress-bar progress-bar-low-middle"';
 								} else {
 									$bar = '<div class="progress-bar progress-bar-danger"';
 								}
