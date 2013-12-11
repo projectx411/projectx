@@ -261,7 +261,7 @@
                 </tbody>
             </table>
 
-			<div id="map_canvas" style="align: center; width: 500px; height: 400px;"></div>
+			<div id="map_canvas" style="align: center; width: 500px; height: 400px; margin-bottom: 50px;"></div>
         </div><!-- /container -->
     </body>
 		<script type="text/javascript" src="js/jquery.js"></script>
@@ -356,6 +356,7 @@
 
 				$('.eventLocation').each(function() {
 					$(this).on('click', function() {
+						$('html, body').animate({ scrollTop: $(document).height() }, 470);
 						//google.maps.visualRefresh = true;
 						google.maps.event.addDomListener(window, 'load', initializeGoogleMaps($(this).text()));
 					});

@@ -45,15 +45,20 @@
 <div class="container">
 <?php echo '<h1>'.$name.'\'s Profile</h1>'; ?>
 <div id="navbar"></div>
-<?php 
+
+<h3>Information</h3>
+
+<div id="picContainer" style="position: absolute; top: 200px; left: 125px;">
+
+<?php
         foreach($allowedExtensions as $extension)
         {
           $flag = 0;
                     $path = "uploads/".$email.".".$extension;
 
-          if(file_exists($path)) 
+          if(file_exists($path))
           {
-              echo '<td><img src="'.$path.'" alt="Profile Picture" height="100" width="100" class="img-rounded"> </td>'; 
+              echo '<td><img src="'.$path.'" alt="Profile Picture" height="100" width="100" class="img-rounded"> </td>';
               $flag = 1;
               break;
           }
@@ -62,9 +67,8 @@
             echo '<td><img src="uploads/default.png" alt="Profile Picture" height="100" width="100" class="image-thumbnail"> </td>'; ?>
 
 
-
-<h3>Information</h3>
-<table class="table table-hover" id="attributes">
+</div>
+<table class="table table-hover" id="attributes" style="position: absolute; top: 150px; left: 270px; width: 500px;">
 <thead>
 <tr>
 <th style="width: 200px;">Attribute</th><th>Current</th>
@@ -87,6 +91,7 @@
 </tr>
 </thead>
 </table>
+<div id="activitiesContainer" style="position: absolute; top: 320px; left: 125px; ">
 <h3>Activities</h3>
 <ul>
 	<?php
@@ -100,7 +105,9 @@
 			echo 'None... yet.';
 	?>
 </ul>
+<br>
 <a href="profile.php">Return to Homepage</a>
+</div>
 </div><!-- /container -->
 
 <script>
@@ -117,7 +124,7 @@ $(function() {
 				echo "$('#peopleTab').addClass('active');";
 
 		?>
-		
+
 	});
 });
 </script>
