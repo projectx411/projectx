@@ -18,6 +18,9 @@
 
     $email = $_SESSION['email'];
     $emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
+    $eventName = "";
+    $location = "";
+    $description = "";
 
     $name = '';
     $gender = '';
@@ -82,6 +85,8 @@
                             ?>
                         <tbody>
                     </table>
+					<button id="un" class="btn btn-danger">Unsubscribe</button>
+					<button id="sub" class="btn btn-success">Subscribe</button>
                 </div>
                 <div class="col-md-6">
                     <table class="table table-hover">
@@ -111,11 +116,8 @@
                         	?>
                         <tbody>
                     </table>
+                	<button class="btn" data-toggle="modal" data-target="#createAct" id="showModal">Create an event</button>
                 </div>
-                <button class="btn" data-toggle="modal" data-target="#createAct" id="showModal">Create an event</button>
-                <h3> </h3>
-                <button id="un" class="btn btn-danger">Unsubscribe</button>
-                <button id="sub" class="btn btn-success">Subscribe</button>
             </div>
     		<!-- Modal -->
 			<!-- Modal -->
@@ -163,6 +165,7 @@
                                                         );
                                                     echo "<table><tr>";
                                                     echo "<td><select class=form-control name=year>";
+                                                    $year = 0;
                                                     for ($i= 2013; $i < 2015; $i++)
                                                     {
                                                         if ($i == $year)
@@ -172,6 +175,7 @@
                                                     }
                                                     echo "</select></td>";
                                                     echo "<td><select class=form-control name=month>";
+                                                    $month = 0;
                                                     for ($i= 1; $i < 12; $i++)
                                                     {
                                                         if ($i == $month)
@@ -181,6 +185,7 @@
                                                     }
                                                     echo "</select></td>";
                                                     echo "<td><select class=form-control name=day>";
+                                                    $day = 0;
                                                     for ($i= 1; $i < 30; $i++)
                                                     {
                                                         if ($i == $day)
@@ -192,6 +197,7 @@
                                                     echo "</td></tr><tr><td>";
                                                     echo "<table><tr>";
                                                     echo "<td><select class=form-control name=hour>";
+                                                    $hour = 0;
                                                     for ($i= 1; $i <= 12; $i++)
                                                     {
                                                         if ($i == $hour)
@@ -201,7 +207,7 @@
                                                     }
                                                     echo "</select></td><td>:</td>";
                                                     echo "<td><select class=form-control name=minute>";
-
+													$minute = 0;
                                                     for ($i= 0; $i < 60; $i++)
                                                     {
                                                         if ($i == 0)
@@ -229,6 +235,7 @@
 
                                                     echo "</select></td><td></td>";
                                                     echo "<td><select class=form-control name=meridiem>";
+                                                    $meridiem = "";
                                                     if ($meridiem == "am")
                                                         echo "<option selected=selected value=am>am</option>";
                                                     else
