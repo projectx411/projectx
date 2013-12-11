@@ -15,6 +15,19 @@
         $phoneNumber = $row['phoneNumber'];
         $password = $row['password'];
     }
+if (isset($_COOKIE["user"]))
+            $userMail = $_COOKIE["user"];
+else
+            header ("Location: index.php");
+
+if ($_FILES) {
+  $name = $_FILES['filename']['name'];
+  $split = explode(".",$name);
+  $newName = $userMail.".".end($split);
+   move_uploaded_file($_FILES['filename']['tmp_name'], "uploads/".$newName); 
+   echo "Uploaded image '$newName'<br />";
+  }
+
     ?>
 
 <!DOCTYPE html>
@@ -201,13 +214,9 @@ New Password: <input name="pass" class="input-xlarge" placeholder="Password" typ
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 <h4 class="modal-title" id="myModalLabel">Update Profile Pic</h4>
 </div>
-<form action="accept-file.php" class="photoForm" method = "post" enctype="multipart/form-data">
-<div class="modal-body">
-  <label for="file">Filename:</label>
-Upload profile pic: <input id="profilePic" name="photo" size="25" enctype="multipart/form-data" type="file">
-<input class="pull-right" type="submit" name="submit" value="Submit" />
-
-</div>
+<form method='post' action='edit_profile.php' enctype='multipart/form-data'>
+  <div class="modal-body">
+Select File: <input type='file' name='filename' size='10' /> <input type='submit' value='Upload' class ="btn btn-default pull-right" />
 </form>
 <div class="modal-footer">
 </div>
