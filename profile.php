@@ -41,7 +41,7 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Name</th><th>Email</th><th>Phone</th><th>Relative Match</th>
+						<th style="width: 20%;">Name</th><th style="width: 20%;">Email</th><th style="width: 20%;">Phone</th><th style="width: 40%;">Relative Match</th>
 					</tr>
 				</thead>
 

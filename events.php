@@ -232,11 +232,12 @@
                 <thead>
                     <tr>
                         <th style="width: 15%;">Event name</th>
+                        <th style="width: 13%;">Creator</th>
                         <th style="width: 10%;">Activity</th>
-                        <th style="width: 15%;">Date</th>
-                        <th style="width: 10%;">Time</th>
+                        <th style="width: 14%;">Date</th>
+                        <th style="width: 8%;">Time</th>
                         <th style="width: 20%;">Location</th>
-                        <th style="width: 30%;">Description/Notes</th>
+                        <th style="width: 20%;">Description/Notes</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -245,10 +246,13 @@
                         $r = mysqli_query($connection, $sql);
                         while ($row = mysqli_fetch_array($r))
                         {
+                        	$creatorName = mysqli_query($connection, "SELECT name FROM Student WHERE email='$row[6]'");
+                        	$creatorName = $creatorName -> fetch_array();
                             date_default_timezone_set('America/Chicago');
                             echo '<tr>';
                             echo "<td>".$row[1]."</td>";
-                            echo "<td>".$row[3]."</td>";
+                            echo '<td><a href="student.php?email='.$row[6].'">'.$creatorName[0].'</a></td>';
+                            echo '<td><a href="activity_info_page.php?activity='.$row[3].'">'.$row[3].'</a></td>';
                             $ts = date_create($row[5]);
                             $date = $ts->format('F j, Y');
                             echo "<td>".$date."</td>";
@@ -256,6 +260,7 @@
                             echo "<td>".$time."</td>";
                             echo '<td><a class="eventLocation" href="#">'.$row[4].', IL</a></td>';
                             echo "<td>".$row[2]."</td>";
+                            echo '</tr>';
                         }
                     ?>
                 </tbody>
