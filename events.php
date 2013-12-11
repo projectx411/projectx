@@ -15,43 +15,6 @@
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
     $emailArray = mysqli_query($connection, "SELECT name FROM Student WHERE email='$email'");
 
-    if(isset($_POST['toadd']))
-    {
-        $message = '';
-        $acti = $_POST['toadd'];
-
-        // if the activity is not in the Activity database, add it with a categoryName="other"
-        $checkIfActivityExists = mysqli_query($connection, "select idActivity from Activity where activityName='$acti' limit 1");
-        $checkIfActivityExists = $checkIfActivityExists -> fetch_array();
-        if ($checkIfActivityExists[0] == "")
-        {
-            $insert = mysqli_query($connection,"INSERT INTO Activity (activityName, categoryName) values ('$acti','other')");
-            //$message .= $acti. " was successfully added to the list of activities under 'other'.</br>";
-        }
-        else
-        {
-            // do nothing
-        }
-
-        echo '</br>';
-
-        // if the activity isn't assigned to $email, insert into Does
-        $idActivity = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti'");
-        $idActivity = $idActivity -> fetch_array();
-        $checkIfActivityAssigned= mysqli_query($connection, "select idDoes from Does where email='$email' and idActivity='$idActivity[0]' limit 1");
-        $checkIfActivityAssigned = $checkIfActivityAssigned -> fetch_array();
-        if ($checkIfActivityAssigned[0] == "")
-        {
-            $insert = mysqli_query($connection,"INSERT INTO Does (email, idActivity) values ('$email','$idActivity[0]')");
-            $cat = mysqli_query($connection, "SELECT categoryName FROM Activity WHERE idActivity='$idActivity[0]' limit 1");
-            $cat = $cat -> fetch_array();
-            $message .= '<div class="error" style="color:#15B318">'.$acti.' was successfully added to your profile under '.$cat[0].'.</div>';
-        }
-        else
-        {
-            $message .= '<div class="error" style="color:#B50000">'.$acti.' is already in your activities!</div>';
-        }
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -332,6 +295,20 @@
 				$('div.errorName').hide();
 				$('div.errorLocation').hide();
 				$('div.errorCity').hide();
+
+				$('#yearSel').on('change', function() {
+					if ($('#monthSel').val() == 2) {
+						if ($(this).val() % 4 == 0) {
+							for (i = 1; i <= 29; i++) {
+								$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+							}
+						}else{
+							for (i = 1; i <= 28; i++) {
+								$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+							}
+						}
+					}
+				}
 
 				$('#monthSel').on('change', function() {
 					var i;
