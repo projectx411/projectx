@@ -23,6 +23,10 @@
 	if($email == $loggedEmail)
 		$profileFlag = 1;
 
+
+	$allowedExtensions = ["JPG", "png", "gif","tif"];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +45,24 @@
 <div class="container">
 <?php echo '<h1>'.$name.'\'s Profile</h1>'; ?>
 <div id="navbar"></div>
+<?php 
+        foreach($allowedExtensions as $extension)
+        {
+          $flag = 0;
+                    $path = "uploads/".$email.".".$extension;
+
+          if(file_exists($path)) 
+          {
+              echo '<td><img src="'.$path.'" alt="Profile Picture" height="100" width="100" class="img-rounded"> </td>'; 
+              $flag = 1;
+              break;
+          }
+        }
+        if($flag == 0)
+            echo '<td><img src="uploads/default.png" alt="Profile Picture" height="100" width="100" class="image-thumbnail"> </td>'; ?>
+
+
+
 <h3>Information</h3>
 <table class="table table-hover" id="attributes">
 <thead>

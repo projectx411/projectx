@@ -25,8 +25,10 @@ if ($_FILES) {
   $split = explode(".",$name);
   $newName = $userMail.".".end($split);
    move_uploaded_file($_FILES['filename']['tmp_name'], "uploads/".$newName);
-   echo "Uploaded image '$newName'<br />";
+   //echo "Uploaded image '$newName'<br />";
   }
+
+  $allowedExtensions = ["JPG", "png", "gif","tif"];
 
     ?>
 
@@ -53,8 +55,26 @@ if ($_FILES) {
 </tr>
 <tr>
 <td>Profile Pic</td>
-<?php echo '<td></td>'; ?>
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">Update Profile Pic</button></td>
+<?php 
+        foreach($allowedExtensions as $extension)
+        {
+          $flag = 0;
+                    $path = "uploads/".$email.".".$extension;
+
+          if(file_exists($path)) 
+          {
+              echo '<td><img src="'.$path.'" alt="Profile Picture" height="42" width="42"> </td>'; 
+              $flag = 1;
+              break;
+          }
+          echo $email.".".$extension;
+        }
+        if($flag == 0)
+            echo '<td><img src="uploads/default.png" alt="Profile Picture" height="42" width="42"> </td>'; ?>
+
+
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal"><span class="glyphicon glyphicon-arrow-up"></span>  Update Profile Pic</button>
+</td>
 </tr>
 <tr>
 <td>Email</td>
