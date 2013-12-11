@@ -380,7 +380,7 @@
 				geo.geocode({'address': address}, function(results, status) {
 					if (status == google.maps.GeocoderStatus.OK) {
 						mapOptions = {
-							zoom: 16,
+							zoom: 17,
 							center: results[0].geometry.location,
 							disableDoubleClickZoom: true,
 							mapTypeControl: true,
