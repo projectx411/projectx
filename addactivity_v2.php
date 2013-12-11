@@ -54,7 +54,7 @@
     <head>
 		<link rel="shortcut icon" href="images/favicon.ico">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-                <link rel="stylesheet" type="text/css"href="css/typeahead.js-bootstrap.css" >
+        <link rel="stylesheet" type="text/css"href="css/typeahead.js-bootstrap.css" >
 
         <meta charset="utf-8">
         <title>Activities</title>
@@ -74,6 +74,8 @@
             }
         </style>
     </head>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.tablesorter.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/typeahead.js"></script>
@@ -163,6 +165,42 @@
 						}
 					?>
 				</ul>
+
+				<h3>Suggested Activities</h3>
+				<table table-layout="fixed" width= "100%" class="table table-striped" id="rec" class="tablesorter">
+					<thead>
+						<tr><th style="width: 150px;">Activity</th><th style="width: 150px;">Recommendation Strength</th></tr>
+					</thead>
+				<?php
+
+					$suggestArray = mysqli_query($connection, "SELECT COUNT(idActivity) AS ct, idActivity AS id2 FROM Does AS D3 INNER JOIN (SELECT DISTINCT email AS em FROM Does AS D2 INNER JOIN (SELECT idActivity AS id1 FROM Does AS D1 INNER JOIN Student AS S1 ON D1.email=S1.email WHERE D1.email='$email') AS T1 ON D2.idActivity=id1 WHERE email<>'$email') AS T2 ON D3.email=em GROUP BY idActivity") or die(mysqli_error);
+
+					while ($row = mysqli_fetch_array($suggestArray)) {
+						$acts = mysqli_query($connection, "SELECT Does.idActivity FROM Does INNER JOIN Activity ON Does.idActivity=Activity.idActivity INNER JOIN Student ON Does.email=Student.email WHERE Student.email='$email';") or die(mysql_error());
+						$inActs = FALSE;
+						$finalArray = array();
+						while ($row1 = mysqli_fetch_array($acts)) {
+							if ($row1['idActivity'] == $row['id2'])  {
+								$inActs = TRUE;
+							}
+						}
+
+						if ($inActs == FALSE) {
+							$qry = "SELECT activityName FROM Activity WHERE idActivity=".$row['id2'];
+							$qry = mysqli_query($connection, $qry);
+							while ($row2 = mysqli_fetch_array($qry)) {
+								$str = '<tr><td>'.$row2[0].'</td><td>'.$row['ct'].'</td></tr>';
+								$finalArray[$str] = $row['id2'];
+							}
+						}
+
+						//print_r($finalArray);
+						foreach ($finalArray as $key=>$value) {
+							echo $key;
+						}
+					}
+				?>
+				</table>
         </div><!-- /container -->
         <script type="text/javascript">
             // hide and show activities
