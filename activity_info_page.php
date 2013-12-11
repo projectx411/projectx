@@ -54,6 +54,7 @@
         <style>
         	.form-control { margin-bottom: 8px; }
 			.tableRow { cursor: pointer; cursor: hand; }
+			img { margin-right: 6px; }
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="https://code.jquery.com/jquery.js"></script>
@@ -79,7 +80,23 @@
                                 while($row = mysqli_fetch_array($names)){
                                     // Print out the contents of the entry
                                     echo '<tr class="tableRow">';
-                                    echo '<td>'.$row['name'].'</td>';
+                                    echo '<td>';
+									$allowedExtensions = ["JPG", "png", "gif","tif"];
+									foreach($allowedExtensions as $extension)
+									{
+									  $flag = 0;
+												$path = "uploads/".$row['email'].".".$extension;
+
+									  if(file_exists($path))
+									  {
+										  echo '<img src="'.$path.'" alt="Profile Picture" height="25" width="25" class="img-rounded">';
+										  $flag = 1;
+										  break;
+									  }
+									}
+									if($flag == 0)
+										echo '<img src="uploads/default.png" alt="Profile Picture" height="25" width="25" class="image-thumbnail">';
+									echo $row['name'].'</td>';
 									echo '<td class="targetEmail" hidden>'.$row['email'].'</td></tr>';
                                 }
 
