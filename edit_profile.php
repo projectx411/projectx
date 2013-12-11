@@ -63,9 +63,34 @@
 <?php echo '<td>'.$password.'</td>'; ?>
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
-</thead>
+<tr>
+	<td></td>
+	<td></td>
+	<td>
+		<button style="width:175px" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
+	</td>
+</tr>
 </table>
 <a href="profile.php">Return to Homepage</a>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Update Email</h4>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to delete your account?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="deleteButton">Yes, delete</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- Email Modal -->
 <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -255,12 +280,38 @@ $(function() {
                                         }
                                         });
                                  });
+   
+   $("button#deleteButton").click(function() {
+   		var request = $.ajax({
+   			url: "deleteProfile.php",
+   			type: "GET",
+   			dataType: "html",
+   			success: function() {
+   				alert("success");
+   			}
+   		});
+   		
+   		
+   		/*request.done(function(msg) {
+			alert(msg);         
+		});*/
+		
+		
+		
+		/*request.fail(function(jqXHR, textStatus) {
+            alert( "Request failed: " + textStatus );
+        });*/
+   });
                                  
    $(".modal-content").find("button").click(function() {
                                  	$('#myModal').modal('hide');
 									$('body').removeClass('modal-open');
 									$('.modal-backdrop').remove();
 					             });
+					             
+	$(".close").click(function() {
+				closeModal();
+			});				             
                                 
 
   /*

@@ -339,6 +339,10 @@
 			$("button#modalClose").click(function() {
 				closeModal();
 			});
+			
+			$(".close").click(function() {
+				closeModal();
+			});
 
             // hide and show activities
             $('div.errorName').hide();
