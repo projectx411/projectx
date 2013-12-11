@@ -59,15 +59,8 @@
         <link rel="shortcut icon" href="images/favicon.ico">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 
-
-        <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet" />
-        <link href="kendoui/styles/kendo.default.min.css" rel="stylesheet" />
-        <script src="kendoui/js/jquery.min.js"></script>
-        <script src="kendoui/js/kendo.web.min.js"></script>
-
-
         <meta charset="utf-8">
-        <title>Activities</title>
+        <title>Events</title>
         <style>
         	.form-control { margin-bottom: 8px; }
             #searchDiv { margin-left: 24px; }
@@ -85,16 +78,10 @@
             }
         </style>
     </head>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/bootstrap.js"></script>
-    <script type="text/javascript" src="js/typeahead.js"></script>
     <body>
         <div class="container">
-            <h1>Activities</h1>
+            <h1>Events</h1>
             <div id="navbar"></div>
-            <h3>Events</h3>
-
-
 
             <!-- Button trigger modal -->
             <button class="btn" data-toggle="modal" data-target="#myModal">
@@ -241,14 +228,14 @@
             </div><!-- /.modal -->
             </br>
             </br>
-            <table table-layout=fixed width= 100% class="table table-striped">
+            <table table-layout=fixed width= 100% class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th style="width: 15%;">Event name</th>
-                        <th style="width: 15%;">Activity</th>
+                        <th style="width: 10%;">Activity</th>
                         <th style="width: 15%;">Date</th>
                         <th style="width: 10%;">Time</th>
-                        <th style="width: 15%;">Location</th>
+                        <th style="width: 20%;">Location</th>
                         <th style="width: 30%;">Description/Notes</th>
                     </tr>
                 </thead>
@@ -259,7 +246,7 @@
                         while ($row = mysqli_fetch_array($r))
                         {
                             date_default_timezone_set('America/Chicago');
-                            echo "<tr>";
+                            echo '<tr>';
                             echo "<td>".$row[1]."</td>";
                             echo "<td>".$row[3]."</td>";
                             $ts = date_create($row[5]);
@@ -267,21 +254,22 @@
                             echo "<td>".$date."</td>";
                             $time = $ts->format('g:i a');
                             echo "<td>".$time."</td>";
-                            echo "<td>".$row[4]."</td>";
+                            echo '<td><a class="eventLocation" href="#">'.$row[4].', IL</a></td>';
                             echo "<td>".$row[2]."</td>";
                         }
                     ?>
                 </tbody>
             </table>
-        </div><!-- /container -->
-        <script type="text/javascript">
-        	function closeModal() {
-        		$('#myModal').modal('hide');
-				$('body').removeClass('modal-open');
-				$('.modal-backdrop').remove();
-        	}
 
-            // navbar
+			<div id="map_canvas" style="align: center; width: 500px; height: 400px;"></div>
+        </div><!-- /container -->
+    </body>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/typeahead.js"></script>
+	    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript">
+
             $(document).ready(function() {
                 $('#navbar').load('navbar.php', function(){
                     $('#tabs li').each(function() {
@@ -366,7 +354,76 @@
 					}
 				});
 
-            })
+				$('.eventLocation').each(function() {
+					$(this).on('click', function() {
+						//google.maps.visualRefresh = true;
+						google.maps.event.addDomListener(window, 'load', initializeGoogleMaps($(this).text()));
+					});
+				});
+
+            });
+
+			var map;
+			var geo;
+			var mapOptions;
+			var markerList = new Array();
+			// Does not work yet in 3.12 Visual Refresh
+			var mapTypes = new Array(	google.maps.MapTypeId.HYBRID,
+										google.maps.MapTypeId.ROADMAP,
+										google.maps.MapTypeId.SATELLITE,
+										google.maps.MapTypeId.TERRAIN);
+
+            function initializeGoogleMaps(address) {
+
+				geo = new google.maps.Geocoder();
+				geo.geocode({'address': address}, function(results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						mapOptions = {
+							zoom: 16,
+							center: results[0].geometry.location,
+							disableDoubleClickZoom: true,
+							mapTypeControl: true,
+
+							// Does not work yet in 3.12 Visual Refresh
+							mapTypeControlOptions: {
+								mapTypeIds: mapTypes,
+								style: google.maps.MapTypeControlStyle.DEFAULT
+							},
+
+							scaleControl: true,
+
+							// Does not work yet in 3.12 Visual Refresh
+							scaleControlOptions: {
+								position: google.maps.ControlPosition.BOTTOM_LEFT
+							}
+						};
+
+						map = new google.maps.Map($('#map_canvas').get(0), mapOptions);
+
+						for (var i = markerList.length - 1; i >= 0; i--)
+						{
+							markerList[i].setMap(null);
+							markerList.pop();
+						}
+						var marker = new google.maps.Marker({
+							map: map,
+							position: results[0].geometry.location,
+							animation: google.maps.Animation.DROP,
+							draggable: false,
+							icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+						});
+						markerList.push(marker);
+					} else {
+						alert('Geocoder unsuccessful:  ' + status);
+					}
+				});
+			}
+
+        	function closeModal() {
+        		$('#myModal').modal('hide');
+				$('body').removeClass('modal-open');
+				$('.modal-backdrop').remove();
+        	}
+
         </script>
-    </body>
 </html>
