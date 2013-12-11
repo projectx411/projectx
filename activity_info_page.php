@@ -9,6 +9,11 @@
 
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
     $activity = $_GET['activity'];
+    $actArray = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$activity'");
+    $activityId = -1;
+    while ($row = mysqli_fetch_array($actArray)) {
+    	$activityId = $row['idActivity'];
+    }
     
     $email = $_SESSION['email'];
     $emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
@@ -22,6 +27,17 @@
         $gender = $row['gender'];
         $phoneNumber = $row['phoneNumber'];
         $password = $row['password'];
+    }
+    
+    $array = mysqli_query($connection, "SELECT * FROM Does WHERE idActivity=$activityId AND email='$email'");
+    $count = 0;
+    while ($row = mysqli_fetch_array($array)) {
+    	$count++;
+    }
+    if ($count > 0) {
+    	$subscribed = 1;
+    } else {
+    	$subscribed = 0;
     }
 
     $activity = $_GET['activity'];
@@ -63,8 +79,8 @@
             $message .= '<div class="error" style="color:#B50000">'.$acti.' is already in your activities!</div>';
         }
     }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
@@ -135,6 +151,10 @@
                         <tbody>
                     </table>
                 </div>
+                <button class="btn" data-toggle="modal" data-target="#createAct" id="showModal">Create an event</button>
+                <h3> </h3>
+                <button id="un" class="btn btn-danger">Unsubscribe</button>
+                <button id="sub" class="btn btn-success">Subscribe</button>
             </div>
              <form id="addActivityForm" method='post' action="activity_info_page.php?activity=<?php echo $_GET['activity']?>">
                     <div id="formDiv">
@@ -144,7 +164,6 @@
                         </div>
                     </div>
                 </form>
-    		<button class="btn" data-toggle="modal" data-target="#createAct" id="showModal">Create an event</button>
     		<!-- Modal -->
 			<!-- Modal -->
             <div class="modal fade" id="createAct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -334,12 +353,22 @@
 					window.location = 'student.php?email='+e;
 				});
 			});
+			$('#un').hide();
+			$('#sub').hide();
+			<?php
+				if ($subscribed) {
+					echo "$('#un').show();";
+				} else {
+					echo "$('#sub').show();";
+				}
+			?>
 			
 			// hide and show activities
             $('div.errorName').hide();
             $('div.errorLocation').hide();
             $('div.errorCity').hide();
         });
+        
         $("button#create").click(function() {
                 var error = "";
                 var eventName = document.getElementsByName("eventName")[0].value;
