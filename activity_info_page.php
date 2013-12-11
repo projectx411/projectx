@@ -53,7 +53,8 @@
         <meta charset="utf-8">
         <style>
         	.form-control { margin-bottom: 8px; }
-			.tableRow { cursor: pointer; cursor: hand; }
+			.eventTableRow { cursor: pointer; cursor: hand; }
+			.studentTableRow { cursor: pointer; cursor: hand; }
 			img { margin-right: 6px; }
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -79,7 +80,7 @@
                                 // store the record of the "tblstudent" table into $row
                                 while($row = mysqli_fetch_array($names)){
                                     // Print out the contents of the entry
-                                    echo '<tr class="tableRow">';
+                                    echo '<tr class="studentTableRow">';
                                     echo '<td>';
 									$allowedExtensions = ["JPG", "png", "gif","tif"];
 									foreach($allowedExtensions as $extension)
@@ -122,7 +123,7 @@
                         	<?php
                         		$events = mysqli_query($connection, "SELECT * FROM Event WHERE activity='$activity'");
                         		while ($row = mysqli_fetch_array($events)) {
-                        			echo '<tr class="tableRow">';
+                        			echo '<tr class="eventTableRow">';
                         			echo '<td>'.$row['name'].'</td>';
                         			$creatorEmail = $row['creator'];
                         			$creatorName = mysqli_query($connection, "SELECT name FROM Student WHERE email='$creatorEmail'");
@@ -303,11 +304,19 @@
                 $('#activityTab').addClass('active');
             });
 
-			$('.tableRow').each(function() {
+			$('.eventTableRow').each(function() {
 				$(this).on('click', function() {
 					window.location = 'events.php#event' + $(this).children('.idEvent').text();
 				});
 			});
+
+			$('.studentTableRow').each(function() {
+				$(this).on('click', function() {
+					var e = $(this).children('.targetEmail').text();
+					window.location = 'student.php?email='+e;
+				});
+			});
+
 			$('#un').hide();
 			$('#sub').hide();
 			$('#createEventButton').hide();
