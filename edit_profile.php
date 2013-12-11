@@ -73,7 +73,8 @@ if ($_FILES) {
             echo '<td><img src="uploads/default.png" alt="Profile Picture" height="42" width="42"> </td>'; ?>
 
 
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">Update Profile Pic</button></td>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal"><span class="glyphicon glyphicon-arrow-up"></span>  Update Profile Pic</button>
+</td>
 </tr>
 <tr>
 <td>Email</td>
