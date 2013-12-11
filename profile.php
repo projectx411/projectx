@@ -96,7 +96,7 @@
 								echo $bar;
 								echo 'role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: '.$percent_match.'%;"><span style="color: #000000">';
 								//echo $percent_match.'%';
-								echo '</span></div></div></td><td>'.$percent_match.'%</td></tr>';
+								echo '</span></div></div></td><td>'.number_format((float)$percent_match, 2, '.', '').'%</td></tr>';
 								//echo '<td>'.$percent_match.'</td></tr>';
 							}
 

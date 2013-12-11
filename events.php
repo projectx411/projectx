@@ -7,6 +7,10 @@
     else
         header ("Location: index.php");
 
+	$activity = "";
+	$eventName = "";
+	$location = "";
+	$description = "";
     $message = '';
     $connection = mysqli_connect($db_hostname, $db_username, $db_password, $db_database) or die(mysql_error());
     $emailArray = mysqli_query($connection, "SELECT name FROM Student WHERE email='$email'");
@@ -65,6 +69,7 @@
         <meta charset="utf-8">
         <title>Activities</title>
         <style>
+        	.form-control { margin-bottom: 8px; }
             #searchDiv { margin-left: 24px; }
             #searchBox { width: 450px; }
             #searchButton { margin-top: 3px; padding: 3px 6px 3px 6px; }
@@ -105,7 +110,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                            
+
                                 <form method="post" class="create" action="create_event.php">
                                     <table>
                                         <tr>
@@ -139,81 +144,58 @@
                                                             1=>"January",2=>"February",3=>"March",4=>"April",5=>"May",6=>"June",7=>"July",8=>"August",9=>"September",10=>"October",11=>"November",12=>"December"
                                                         );
                                                     echo "<table><tr>";
-                                                    echo "<td><select class=form-control name=year>";
-                                                    for ($i= 2013; $i < 2015; $i++)
+                                                    echo '<td><select id="yearSel" class=form-control name=year>';
+                                                    $year = 0;
+                                                    for ($i= 2013; $i < 2018; $i++)
                                                     {
-                                                        if ($i == $year)
-                                                            echo "<option selected=selected value=".$i.">".$i."</option>";
-                                                        else
-                                                            echo "<option value=".$i.">".$i."</option>";
+                                                        echo "<option value=".$i.">".$i."</option>";
                                                     }
                                                     echo "</select></td>";
-                                                    echo "<td><select class=form-control name=month>";
-                                                    for ($i= 1; $i < 12; $i++)
+                                                    echo '<td><select id="monthSel" class=form-control name=month>';
+                                                    $month = 0;
+                                                    for ($i= 1; $i <= 12; $i++)
                                                     {
-                                                        if ($i == $month)
-                                                            echo "<option selected=selected value=".$i.">".$months[$i]."</option>";
-                                                        else
-                                                            echo "<option value=".$i.">".$months[$i]."</option>";
+                                                        echo "<option value=".$i.">".$months[$i]."</option>";
                                                     }
                                                     echo "</select></td>";
-                                                    echo "<td><select class=form-control name=day>";
-                                                    for ($i= 1; $i < 30; $i++)
+                                                    echo '<td><select id="daySel" class=form-control name=day>';
+                                                    for ($i= 1; $i <= 31; $i++)
                                                     {
-                                                        if ($i == $day)
-                                                            echo "<option selected=selected value=".$i.">".$i."</option>";
-                                                        else
-                                                            echo "<option value=".$i.">".$i."</option>";
+                                                        echo "<option value=".$i.">".$i."</option>";
                                                     }
                                                     echo "</select></td></tr></table>";
                                                     echo "</td></tr><tr><td>";
                                                     echo "<table><tr>";
                                                     echo "<td><select class=form-control name=hour>";
+                                                    $hour = 0;
                                                     for ($i= 1; $i <= 12; $i++)
                                                     {
-                                                        if ($i == $hour)
-                                                            echo "<option selected=selected value=".$i.">".$i;
-                                                        else
-                                                            echo "<option value=".$i.">".$i;
+                                                        echo "<option value=".$i.">".$i;
                                                     }
                                                     echo "</select></td><td>:</td>";
                                                     echo "<td><select class=form-control name=minute>";
-
+													$minute = 0;
                                                     for ($i= 0; $i < 60; $i++)
                                                     {
                                                         if ($i == 0)
                                                         {
-                                                            if ($i == $minute)
-                                                                echo "<option selected=selected value=00>00";
-                                                            else
-                                                                echo "<option value=00>00";
+                                                            echo "<option value=00>00";
                                                         }
                                                         else if ($i == 5)
                                                         {
-                                                            if ($i == $minute)
-                                                                echo "<option selected=selected value=05>05";
-                                                            else
-                                                                echo "<option value=05>05";
+                                                            echo "<option value=05>05";
                                                         }
                                                         else if ($i%5==0)
                                                         {
-                                                            if ($i == $minute)
-                                                                echo "<option selected=selected value=".$i.">".$i;
-                                                            else
-                                                                echo "<option value=".$i.">".$i;
+                                                            echo "<option value=".$i.">".$i;
                                                         }
                                                     }
-                                                    
+
                                                     echo "</select></td><td></td>";
                                                     echo "<td><select class=form-control name=meridiem>";
-                                                    if ($meridiem == "am")
-                                                        echo "<option selected=selected value=am>am</option>";
-                                                    else
-                                                        echo "<option value=am>am</option>";
-                                                    if ($meridiem == "pm")
-                                                        echo "<option selected=selected value=pm>pm</option>";
-                                                    else
-                                                        echo "<option value=pm>pm</option>";
+                                                    $meridiem = "";
+                                                    echo "<option value=am>am</option>";
+                                                    echo "<option value=pm>pm</option>";
                                                     echo "</select></td></tr></table>";
                                                 ?>
                                             </td>
@@ -230,7 +212,7 @@
                                                         </td>
                                                         <td>
                                                             <?php
-                                                                echo " <input type=radio name=city value=Champaign> Champaign ";
+                                                                echo ' <input type=radio name=city value=Champaign style="margin-left: 10px;"> Champaign ';
                                                                 echo " <input type=radio name=city value=Urbana> Urbana ";
                                                             ?>
                                                             <div class="errorCity">
@@ -298,57 +280,7 @@
 				$('body').removeClass('modal-open');
 				$('.modal-backdrop').remove();
         	}
-        
-            $("button#create").click(function() {
-                var error = "";
-                var eventName = document.getElementsByName("eventName")[0].value;
-                var street = document.getElementsByName("location")[0].value;
-                var city;
-                if (document.getElementsByName("city")[0].checked)
-                    city = "Champaign"
-                else if (document.getElementsByName("city")[1].checked)
-                    city = "Urbana";
-                else
-                    city = "";
-                if (!eventName)
-                    $(".errorName").show().delay(2000).fadeOut(1000);
-                if (!street)
-                    $(".errorLocation").show().delay(2000).fadeOut(1000);
-                if (!city)
-                    $(".errorCity").show().delay(2000).fadeOut(1000);
-                if (eventName && city && street)
-                {
-                    $.ajax({
-                        type: "POST",
-                        url: "create_event.php",
-                        data: $('form.create').serialize(),
-                        success: function(msg) {
-                            window.location = 'events.php';
-                        },
-                        error: function() {
-                            //alert("error");
-                        }
-                    });
-                }
-                
-                if (eventName && street && city) {
-                	closeModal();
-                }
-			});
-			
-			$("button#modalClose").click(function() {
-				closeModal();
-			});
-			
-			$(".close").click(function() {
-				closeModal();
-			});
 
-            // hide and show activities
-            $('div.errorName').hide();
-            $('div.errorLocation').hide();
-            $('div.errorCity').hide();
-                
             // navbar
             $(document).ready(function() {
                 $('#navbar').load('navbar.php', function(){
@@ -357,6 +289,83 @@
                     });
                     $('#eventTab').addClass('active');
                 });
+
+				$("button#create").click(function() {
+					var error = "";
+					var eventName = document.getElementsByName("eventName")[0].value;
+					var street = document.getElementsByName("location")[0].value;
+					var city;
+					if (document.getElementsByName("city")[0].checked)
+						city = "Champaign"
+					else if (document.getElementsByName("city")[1].checked)
+						city = "Urbana";
+					else
+						city = "";
+					if (!eventName)
+						$(".errorName").show().delay(2000).fadeOut(1000);
+					if (!street)
+						$(".errorLocation").show().delay(2000).fadeOut(1000);
+					if (!city)
+						$(".errorCity").show().delay(2000).fadeOut(1000);
+					if (eventName && city && street)
+					{
+						$.ajax({
+							type: "POST",
+							url: "create_event.php",
+							data: $('form.create').serialize(),
+							success: function(msg) {
+								window.location = 'events.php';
+							},
+							error: function() {
+								//alert("error");
+							}
+						});
+					}
+
+					if (eventName && street && city) {
+						closeModal();
+					}
+				});
+
+				$("button#modalClose").click(function() {
+					closeModal();
+				});
+
+				$(".close").click(function() {
+					closeModal();
+				});
+
+				// hide and show activities
+				$('div.errorName').hide();
+				$('div.errorLocation').hide();
+				$('div.errorCity').hide();
+
+				$('#monthSel').on('change', function() {
+					var i;
+					$('#daySel').empty();
+					if ($(this).val() == 1 || $(this).val() == 3 || $(this).val() == 5 ||
+						$(this).val() == 7 || $(this).val() == 8 || $(this).val() == 10 || $(this).val() == 12) {
+						for (i = 1; i <= 31; i++) {
+							$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+						}
+					} else if ($(this).val() == 4 || $(this).val() == 6 ||
+								 $(this).val() == 9 || $(this).val() == 11) {
+						for (i = 1; i <= 30; i++) {
+							$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+						}
+					} else if ($(this).val() == 2) {
+						if ($('#yearSel').val() % 4 == 0) {
+							for (i = 1; i <= 29; i++) {
+								$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+							}
+						}else{
+							for (i = 1; i <= 28; i++) {
+								$('#daySel').append('<option value=' + i + '>' + i +'</option>');
+							}
+						}
+					}
+				});
+
             })
         </script>
     </body>

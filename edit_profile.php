@@ -24,7 +24,7 @@ if ($_FILES) {
   $name = $_FILES['filename']['name'];
   $split = explode(".",$name);
   $newName = $userMail.".".end($split);
-   move_uploaded_file($_FILES['filename']['tmp_name'], "uploads/".$newName); 
+   move_uploaded_file($_FILES['filename']['tmp_name'], "uploads/".$newName);
    echo "Uploaded image '$newName'<br />";
   }
 
@@ -52,6 +52,11 @@ if ($_FILES) {
 <th>Attribute</th><th>Current</th>
 </tr>
 <tr>
+<td>Profile Pic</td>
+<?php echo '<td></td>'; ?>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">Update Profile Pic</button></td>
+</tr>
+<tr>
 <td>Email</td>
 <?php echo '<td>'.$email.'</td>'; ?>
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#emailModal">Update Email</button></td>
@@ -77,16 +82,9 @@ if ($_FILES) {
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
 <tr>
-<td>Profile Pic</td>
-<?php echo '<td></td>'; ?>
-<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">Update Profile Pic</button></td>
-</tr>
-<tr>
-	<td></td>
-	<td></td>
-	<td>
-		<button style="width:175px" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
-	</td>
+<td>
+	<button style="width:175px; margin-top: 20px;" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Profile</button>
+</td>
 </tr>
 </table>
 <a href="profile.php">Return to Homepage</a>
@@ -313,7 +311,7 @@ $(function() {
                                         }
                                         });
                                  });
-   
+
    $("button#deleteButton").click(function() {
    		var request = $.ajax({
    			url: "deleteProfile.php",
@@ -323,29 +321,29 @@ $(function() {
    				alert("success");
    			}
    		});
-   		
-   		
+
+
    		/*request.done(function(msg) {
-			alert(msg);         
+			alert(msg);
 		});*/
-		
-		
-		
+
+
+
 		/*request.fail(function(jqXHR, textStatus) {
             alert( "Request failed: " + textStatus );
         });*/
    });
-                                 
+
    $(".modal-content").find("button").click(function() {
                                  	$('#myModal').modal('hide');
 									$('body').removeClass('modal-open');
 									$('.modal-backdrop').remove();
 					             });
-					             
+
 	$(".close").click(function() {
 				closeModal();
-			});				             
-                                
+			});
+
 
   /*
   $("button#profileReturn").click(function() {

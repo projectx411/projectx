@@ -102,7 +102,7 @@
                 }
             ?>
             <h3>Find an Activity</h3>
-            <table table-layout=fixed width= 100% class="table table-striped">
+            <table table-layout=fixed width= 100% class="table table-striped table-hover">
                 <thead>
                     <tr><th style="width: 150px;">Categories</th><th>Activities</th></tr>
                 </thead>
