@@ -29,6 +29,7 @@
 		<title>Project X</title>
 		<style>
 			.tableRow { cursor: pointer; cursor: hand; }
+			img { margin-right: 6px; }
 		</style>
 	</head>
 
@@ -83,7 +84,23 @@
 								$percent_match = $value / $most_activities_matched * 100;
 
 								echo '<tr class="tableRow">';
-								echo '<td>'.$row['name'].'</td>';
+								echo '<td>';
+								$allowedExtensions = ["JPG", "png", "gif","tif"];
+								foreach($allowedExtensions as $extension)
+								{
+								  $flag = 0;
+											$path = "uploads/".$row['email'].".".$extension;
+
+								  if(file_exists($path))
+								  {
+									  echo '<img src="'.$path.'" alt="Profile Picture" height="25" width="25" class="img-rounded">';
+									  $flag = 1;
+									  break;
+								  }
+								}
+								if($flag == 0)
+									echo '<img src="uploads/default.png" alt="Profile Picture" height="25" width="25" class="image-thumbnail">';
+								echo $row['name'].'</td>';
 								echo '<td class="targetEmail">'.$row['email'].'</td>';
 								echo '<td>'.$row['phoneNumber'].'</td>';
 

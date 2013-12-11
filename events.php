@@ -249,7 +249,7 @@
                         	$creatorName = mysqli_query($connection, "SELECT name FROM Student WHERE email='$row[6]'");
                         	$creatorName = $creatorName -> fetch_array();
                             date_default_timezone_set('America/Chicago');
-                            echo '<tr>';
+                            echo '<tr id="event'.$row[0].'">';
                             echo "<td>".$row[1]."</td>";
                             echo '<td><a href="student.php?email='.$row[6].'">'.$creatorName[0].'</a></td>';
                             echo '<td><a href="activity_info_page.php?activity='.$row[3].'">'.$row[3].'</a></td>';

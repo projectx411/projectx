@@ -65,7 +65,7 @@
             <?php echo '<h1>About '.$activity.'</h1>' ?>
             <div id="navbar"></div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" style="width: 30%;">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -89,15 +89,16 @@
 					<button id="un" class="btn btn-danger">Unsubscribe</button>
 					<button id="sub" class="btn btn-success">Subscribe</button>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" style="width: 70%;">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th><?php echo $activity; ?> event</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Location</th>
-                                <th>Description</th>
+                                <th style="width: 15%;"><?php echo $activity; ?> events</th>
+                                <th style="width: 13%;">Creator</th>
+                                <th style="width: 10%;">Date</th>
+                                <th style="width: 8%;">Time</th>
+                                <th style="width: 20%;">Location</th>
+                                <th style="width: 20%;">Description</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,6 +107,10 @@
                         		while ($row = mysqli_fetch_array($events)) {
                         			echo '<tr class="tableRow">';
                         			echo '<td>'.$row['name'].'</td>';
+                        			$creatorEmail = $row['creator'];
+                        			$creatorName = mysqli_query($connection, "SELECT name FROM Student WHERE email='$creatorEmail'");
+                        			$creatorName = $creatorName -> fetch_array();
+                        			echo '<td>'.$creatorName[0].'</td>';
                         			$ts = date_create($row['ts']);
 				                    $date = $ts->format('F j, Y');
 				                    echo "<td>".$date."</td>";
@@ -113,6 +118,8 @@
                     				echo '<td>'.$time.'</td>';
                     				echo '<td>'.$row['location'].'</td>';
                     				echo '<td>'.$row['description'].'</td>';
+                    				echo '<td class="idEvent" hidden>'.$row['idEvent'].'</td>';
+                    				echo '</tr>';
                         		}
                         	?>
                         <tbody>
@@ -281,8 +288,7 @@
 
 			$('.tableRow').each(function() {
 				$(this).on('click', function() {
-					var e = $(this).children('.targetEmail').text();
-					window.location = 'student.php?email='+e;
+					window.location = 'events.php#event' + $(this).children('.idEvent').text();
 				});
 			});
 			$('#un').hide();
