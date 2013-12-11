@@ -105,8 +105,6 @@
 			echo 'None... yet.';
 	?>
 </ul>
-<br>
-<a href="profile.php">Return to Homepage</a>
 </div>
 </div><!-- /container -->
 

@@ -55,15 +55,15 @@ if ($_FILES) {
 </tr>
 <tr>
 <td>Profile Pic</td>
-<?php 
+<?php
         foreach($allowedExtensions as $extension)
         {
           $flag = 0;
                     $path = "uploads/".$email.".".$extension;
 
-          if(file_exists($path)) 
+          if(file_exists($path))
           {
-              echo '<td><img src="'.$path.'" alt="Profile Picture" height="42" width="42"> </td>'; 
+              echo '<td><img src="'.$path.'" alt="Profile Picture" height="42" width="42"> </td>';
               $flag = 1;
               break;
           }
@@ -107,7 +107,6 @@ if ($_FILES) {
 </td>
 </tr>
 </table>
-<a href="profile.php">Return to Homepage</a>
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
