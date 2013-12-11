@@ -15,6 +15,14 @@
 		$phoneNumber = $row['phoneNumber'];
 		$password = $row['password'];
 	}
+	if (isset($_COOKIE["user"]))
+            $loggedEmail = $_COOKIE["user"];
+        else
+            header ("Location: index.php");
+	$profileFlag = 0;
+	if($email == $loggedEmail)
+		$profileFlag = 1;
+
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +87,15 @@ $(function() {
 		$('#tabs li').each(function() {
 			$(this).removeClass('active');
 		});
-		$('#peopleTab').addClass('active');
+		<?php
+
+			if($profileFlag == 1)
+				echo "$('#userProfileTab').addClass('active');";
+			else
+				echo "$('#peopleTab').addClass('active');";
+
+		?>
+		
 	});
 });
 </script>

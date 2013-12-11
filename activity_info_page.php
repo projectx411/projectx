@@ -39,7 +39,48 @@
     } else {
     	$subscribed = 0;
     }
+
+    $activity = $_GET['activity'];
+
+    if(isset($_POST['toadd']))
+    {
+        $message = '';
+        $acti = $_POST['toadd'];
+
+        // if the activity is not in the Activity database, add it with a categoryName="other"
+        $checkIfActivityExists = mysqli_query($connection, "select idActivity from Activity where activityName='$acti' limit 1");
+        $checkIfActivityExists = $checkIfActivityExists -> fetch_array();
+        if ($checkIfActivityExists[0] == "")
+        {
+            $insert = mysqli_query($connection,"INSERT INTO Activity (activityName, categoryName) values ('$acti','other')");
+            //$message .= $acti. " was successfully added to the list of activities under 'other'.</br>";
+        }
+        else
+        {
+            // do nothing
+        }
+
+        echo '</br>';
+
+        // if the activity isn't assigned to $email, insert into Does
+        $idActivity = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti'");
+        $idActivity = $idActivity -> fetch_array();
+        $checkIfActivityAssigned= mysqli_query($connection, "select idDoes from Does where email='$email' and idActivity='$idActivity[0]' limit 1");
+        $checkIfActivityAssigned = $checkIfActivityAssigned -> fetch_array();
+        if ($checkIfActivityAssigned[0] == "")
+        {
+            $insert = mysqli_query($connection,"INSERT INTO Does (email, idActivity) values ('$email','$idActivity[0]')");
+            $cat = mysqli_query($connection, "SELECT categoryName FROM Activity WHERE idActivity='$idActivity[0]' limit 1");
+            $cat = $cat -> fetch_array();
+            $message .= '<div class="error" style="color:#15B318">'.$acti.' was successfully added to your profile under '.$cat[0].'.</div>';
+        }
+        else
+        {
+            $message .= '<div class="error" style="color:#B50000">'.$acti.' is already in your activities!</div>';
+        }
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
@@ -115,6 +156,14 @@
                 <button id="un" class="btn btn-danger">Unsubscribe</button>
                 <button id="sub" class="btn btn-success">Subscribe</button>
             </div>
+             <form id="addActivityForm" method='post' action="activity_info_page.php?activity=<?php echo $_GET['activity']?>">
+                    <div id="formDiv">
+                        <div id="searchDiv">
+                            <input id="searchBox" type="hidden" class="activity" name="toadd" value ="<?php echo $_GET['activity']?>"  />
+                            <button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
+                        </div>
+                    </div>
+                </form>
     		<!-- Modal -->
 			<!-- Modal -->
             <div class="modal fade" id="createAct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -281,6 +330,8 @@
         </div>
     </body>
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
     <script>
     	function closeModal() {
         		$('#myModal').modal('hide');
