@@ -64,6 +64,11 @@
 <td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#passModal">Update Password</button></td>
 </tr>
 <tr>
+<td>Profile Pic</td>
+<?php echo '<td></td>'; ?>
+<td><button style="width:175px" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">Update Profile Pic</button></td>
+</tr>
+<tr>
 	<td></td>
 	<td></td>
 	<td>
@@ -189,7 +194,26 @@ New Password: <input name="pass" class="input-xlarge" placeholder="Password" typ
 </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">Update Profile Pic</h4>
+</div>
+<form action="accept-file.php" class="photoForm" method = "post" enctype="multipart/form-data">
+<div class="modal-body">
+  <label for="file">Filename:</label>
+Upload profile pic: <input id="profilePic" name="photo" size="25" enctype="multipart/form-data" type="file">
+<input class="pull-right" type="submit" name="submit" value="Submit" />
 
+</div>
+</form>
+<div class="modal-footer">
+</div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </div><!-- /container -->
 <script>
 $(function() {
