@@ -14,7 +14,8 @@
     while ($row = mysqli_fetch_array($actArray)) {
     	$activityId = $row['idActivity'];
     }
-    
+	$_SESSION['activityId'] = $activityId;
+
     $email = $_SESSION['email'];
     $emailArray = mysqli_query($connection, "SELECT * FROM Student WHERE email='$email'");
 
@@ -28,7 +29,7 @@
         $phoneNumber = $row['phoneNumber'];
         $password = $row['password'];
     }
-    
+
     $array = mysqli_query($connection, "SELECT * FROM Does WHERE idActivity=$activityId AND email='$email'");
     $count = 0;
     while ($row = mysqli_fetch_array($array)) {
@@ -38,46 +39,6 @@
     	$subscribed = 1;
     } else {
     	$subscribed = 0;
-    }
-
-    $activity = $_GET['activity'];
-
-    if(isset($_POST['toadd']))
-    {
-        $message = '';
-        $acti = $_POST['toadd'];
-
-        // if the activity is not in the Activity database, add it with a categoryName="other"
-        $checkIfActivityExists = mysqli_query($connection, "select idActivity from Activity where activityName='$acti' limit 1");
-        $checkIfActivityExists = $checkIfActivityExists -> fetch_array();
-        if ($checkIfActivityExists[0] == "")
-        {
-            $insert = mysqli_query($connection,"INSERT INTO Activity (activityName, categoryName) values ('$acti','other')");
-            //$message .= $acti. " was successfully added to the list of activities under 'other'.</br>";
-        }
-        else
-        {
-            // do nothing
-        }
-
-        echo '</br>';
-
-        // if the activity isn't assigned to $email, insert into Does
-        $idActivity = mysqli_query($connection, "SELECT idActivity FROM Activity WHERE activityName='$acti'");
-        $idActivity = $idActivity -> fetch_array();
-        $checkIfActivityAssigned= mysqli_query($connection, "select idDoes from Does where email='$email' and idActivity='$idActivity[0]' limit 1");
-        $checkIfActivityAssigned = $checkIfActivityAssigned -> fetch_array();
-        if ($checkIfActivityAssigned[0] == "")
-        {
-            $insert = mysqli_query($connection,"INSERT INTO Does (email, idActivity) values ('$email','$idActivity[0]')");
-            $cat = mysqli_query($connection, "SELECT categoryName FROM Activity WHERE idActivity='$idActivity[0]' limit 1");
-            $cat = $cat -> fetch_array();
-            $message .= '<div class="error" style="color:#15B318">'.$acti.' was successfully added to your profile under '.$cat[0].'.</div>';
-        }
-        else
-        {
-            $message .= '<div class="error" style="color:#B50000">'.$acti.' is already in your activities!</div>';
-        }
     }
 ?>
 
@@ -156,14 +117,6 @@
                 <button id="un" class="btn btn-danger">Unsubscribe</button>
                 <button id="sub" class="btn btn-success">Subscribe</button>
             </div>
-             <form id="addActivityForm" method='post' action="activity_info_page.php?activity=<?php echo $_GET['activity']?>">
-                    <div id="formDiv">
-                        <div id="searchDiv">
-                            <input id="searchBox" type="hidden" class="activity" name="toadd" value ="<?php echo $_GET['activity']?>"  />
-                            <button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
-                        </div>
-                    </div>
-                </form>
     		<!-- Modal -->
 			<!-- Modal -->
             <div class="modal fade" id="createAct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -175,7 +128,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="container">
-                            
+
                                 <form method="post" class="create" action="create_event.php">
                                     <table>
                                         <tr>
@@ -273,7 +226,7 @@
                                                                 echo "<option value=".$i.">".$i;
                                                         }
                                                     }
-                                                    
+
                                                     echo "</select></td><td></td>";
                                                     echo "<td><select class=form-control name=meridiem>";
                                                     if ($meridiem == "am")
@@ -338,7 +291,7 @@
 				$('body').removeClass('modal-open');
 				$('.modal-backdrop').remove();
         	}
-    	
+
         $(function() {
             $('#navbar').load('navbar.php', function(){
                 $('#tabs li').each(function() {
@@ -362,56 +315,67 @@
 					echo "$('#sub').show();";
 				}
 			?>
-			
+
 			// hide and show activities
             $('div.errorName').hide();
             $('div.errorLocation').hide();
             $('div.errorCity').hide();
-        });
-        
-        $("button#create").click(function() {
-                var error = "";
-                var eventName = document.getElementsByName("eventName")[0].value;
-                var street = document.getElementsByName("location")[0].value;
-                var city;
-                if (document.getElementsByName("city")[0].checked)
-                    city = "Champaign"
-                else if (document.getElementsByName("city")[1].checked)
-                    city = "Urbana";
-                else
-                    city = "";
-                if (!eventName)
-                    $(".errorName").show().delay(2000).fadeOut(1000);
-                if (!street)
-                    $(".errorLocation").show().delay(2000).fadeOut(1000);
-                if (!city)
-                    $(".errorCity").show().delay(2000).fadeOut(1000);
-                if (eventName && city && street)
-                {
-                    $.ajax({
-                        type: "POST",
-                        url: "create_event.php",
-                        data: $('form.create').serialize(),
-                        success: function(msg) {
-                            window.location = 'events.php';
-                        },
-                        error: function() {
-                            //alert("error");
-                        }
-                    });
-                }
-                
-                if (eventName && street && city) {
-                	closeModal();
-                }
+
+
+			$("button#create").click(function() {
+				var error = "";
+				var eventName = document.getElementsByName("eventName")[0].value;
+				var street = document.getElementsByName("location")[0].value;
+				var city;
+				if (document.getElementsByName("city")[0].checked)
+					city = "Champaign"
+				else if (document.getElementsByName("city")[1].checked)
+					city = "Urbana";
+				else
+					city = "";
+				if (!eventName)
+					$(".errorName").show().delay(2000).fadeOut(1000);
+				if (!street)
+					$(".errorLocation").show().delay(2000).fadeOut(1000);
+				if (!city)
+					$(".errorCity").show().delay(2000).fadeOut(1000);
+				if (eventName && city && street)
+				{
+					$.ajax({
+						type: "POST",
+						url: "create_event.php",
+						data: $('form.create').serialize(),
+						success: function(msg) {
+							window.location = 'events.php';
+						},
+						error: function() {
+							//alert("error");
+						}
+					});
+				}
+
+				if (eventName && street && city) {
+					closeModal();
+				}
 			});
-			
+
+			$('#sub').click(function() {
+				$.get('subscribe.php');
+				location.reload();
+			});
+
+			$('#un').click(function() {
+				$.get('unsubscribe.php');
+				location.reload();
+			});
+
 			$("button#modalClose").click(function() {
 				closeModal();
 			});
 			$(".close").click(function() {
 				closeModal();
 			});
+        });
     </script>
 
 </html>

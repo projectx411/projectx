@@ -57,14 +57,14 @@
 							$matched_users = mysqli_query($connection, $query)
 							or die(mysql_error());
 							while ($row1 = mysqli_fetch_array($matched_users)) {
-								if ($similar_users[$row1['email']] == null) {
+								if (!isset($similar_users[$row1['email']])) {
 									$similar_users[$row1['email']] = 1;
 								} else {
 									$similar_users[$row1['email']] = $similar_users[$row1['email']] + 1;
 								}
 							}
-							
-							
+
+
 						}
 						arsort($similar_users);
 						$most_activities_matched;
@@ -73,18 +73,18 @@
 							$user_data = mysqli_query($connection, "SELECT * FROM Student WHERE Student.email='$key'")
 										 or die(mysql_error());
 							while ($row = mysqli_fetch_array($user_data)) {
-							
+
 								if ($idx == 0) {
 									$most_activities_matched = $value;
 									$idx = 1;
 								}
 								$percent_match = $value / $most_activities_matched * 100;
-							
+
 								echo '<tr class="tableRow">';
 								echo '<td>'.$row['name'].'</td>';
 								echo '<td class="targetEmail">'.$row['email'].'</td>';
 								echo '<td>'.$row['phoneNumber'].'</td>';
-								
+
 								echo '<td><div class="progress">';
 								if ($percent_match > 70) {
 									$bar = '<div class="progress-bar progress-bar-success"';
@@ -99,9 +99,9 @@
 								echo '</span></div></div></td><td>'.$percent_match.'%</td></tr>';
 								//echo '<td>'.$percent_match.'</td></tr>';
 							}
-							
-							
-					
+
+
+
 						}
 
 					?>
