@@ -136,6 +136,14 @@
                     </table>
                 </div>
             </div>
+             <form id="addActivityForm" method='post' action="activity_info_page.php?activity=<?php echo $_GET['activity']?>">
+                    <div id="formDiv">
+                        <div id="searchDiv">
+                            <input id="searchBox" type="hidden" class="activity" name="toadd" value ="<?php echo $_GET['activity']?>"  />
+                            <button id="searchButton" type="submit" class="btn btn-default">Add to your activities</button>
+                        </div>
+                    </div>
+                </form>
     		<button class="btn" data-toggle="modal" data-target="#createAct" id="showModal">Create an event</button>
     		<!-- Modal -->
 			<!-- Modal -->
