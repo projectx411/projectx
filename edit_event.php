@@ -225,7 +225,7 @@ $(function() {
 				}
 			}
 		}
-	}
+	});
 
 	$('#monthSel').on('change', function() {
 		var i;
