@@ -61,3 +61,7 @@ create table Event (
 		creator			char(255),
 		PRIMARY KEY (idEvent)
 	);
+
+create table test (
+	id char(255)
+);
